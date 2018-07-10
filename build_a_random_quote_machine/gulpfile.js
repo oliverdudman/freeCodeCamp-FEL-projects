@@ -1,10 +1,6 @@
 const gulp = require("gulp");
-const babel = require("gulp-babel");
 const browserSync = require("browser-sync");
-// const concat = require("gulp-concat");
 const eslint = require("gulp-eslint");
-// const filter = require("gulp-filter");
-// const newer = require("gulp-newer");
 const plumber = require("gulp-plumber");
 const reload = browserSync.reload;
 const sass = require("gulp-sass");
@@ -24,16 +20,7 @@ const onError = function(err) {
 const plumberOptions = {
   errorHandle: onError,
 };
-//
-// const jsFiles = {
-//   vendor: [
-//
-//   ],
-//   source: [
-//     "js/src/main.js",
-//   ]
-// };
-//
+
 gulp.task("eslint", function() {
   return gulp.src("js/src/main.js")
   .pipe(eslint())
