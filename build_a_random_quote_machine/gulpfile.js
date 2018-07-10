@@ -8,6 +8,8 @@ const browserSync = require("browser-sync");
 // const plumber = require("gulp-plumber");
 const reload = browserSync.reload;
 const sass = require("gulp-sass");
+const browserify = require("browserify");
+const source = require("vinyl-source-stream");
 // const sourcemaps = require("gulp-sourcemaps");
 
 // const onError = function(err) {
@@ -38,19 +40,21 @@ gulp.task("sass", function() {
   .pipe(reload({stream: true}));
 });
 
-gulp.task("babel", function() {
-  return gulp.src("js/src/main.js")
-  .pipe(babel({"plugins": ["transform-react-jsx"]}))
+gulp.task("browserify", function() {
+  return browserify("js/src/main.js")
+  .transform("babelify", {presets: ["@babel/preset-env", "@babel/preset-react"]})
+  .bundle()
+  .pipe(source("main.js"))
   .pipe(gulp.dest("js/build"))
   .pipe(reload({stream: true}));
-})
+});
 
-gulp.task("default", ["sass", "babel"], function() {
+gulp.task("default", ["sass", "browserify", "eslint"], function() {
   browserSync({
     server: true,
   });
 
-  gulp.watch(["scss/*.scss"], ["sass", "babel"]);
+  gulp.watch(["scss/*.scss"], ["sass"]);
   gulp.watch(["index.html"], reload);
-  gulp.watch(["js/src/main.js"], ["babel"]);
+  gulp.watch(["js/src/main.js"], ["browserify", "eslint"]);
 })
