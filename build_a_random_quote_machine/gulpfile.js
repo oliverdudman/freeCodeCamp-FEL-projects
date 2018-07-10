@@ -5,24 +5,25 @@ const browserSync = require("browser-sync");
 const eslint = require("gulp-eslint");
 // const filter = require("gulp-filter");
 // const newer = require("gulp-newer");
-// const plumber = require("gulp-plumber");
+const plumber = require("gulp-plumber");
 const reload = browserSync.reload;
 const sass = require("gulp-sass");
 const browserify = require("browserify");
 const source = require("vinyl-source-stream");
 const sourcemaps = require("gulp-sourcemaps");
+const notify = require("gulp-notify");
 
-// const onError = function(err) {
-//   notify.onError({
-//     title: "Error",
-//     message: "<%= error %>",
-//   })(err);
-//   this.emit("end");
-// };
-//
-// const plumberOptions = {
-//   errorHandle: onError,
-// };
+const onError = function(err) {
+  notify.onError({
+    title: "gulp error in " + err.plugin,
+    message: err.toString(),
+  })(err);
+  this.emit("end");
+};
+
+const plumberOptions = {
+  errorHandle: onError,
+};
 //
 // const jsFiles = {
 //   vendor: [
@@ -41,6 +42,7 @@ gulp.task("eslint", function() {
 
 gulp.task("sass", function() {
   return gulp.src("scss/main.scss")
+  .pipe(plumber({errorHandler: onError}))
   .pipe(sourcemaps.init())
   .pipe(sass())
   .pipe(sourcemaps.write())
