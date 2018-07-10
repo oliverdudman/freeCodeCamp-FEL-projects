@@ -10,7 +10,7 @@ const reload = browserSync.reload;
 const sass = require("gulp-sass");
 const browserify = require("browserify");
 const source = require("vinyl-source-stream");
-// const sourcemaps = require("gulp-sourcemaps");
+const sourcemaps = require("gulp-sourcemaps");
 
 // const onError = function(err) {
 //   notify.onError({
@@ -41,7 +41,9 @@ gulp.task("eslint", function() {
 
 gulp.task("sass", function() {
   return gulp.src("scss/main.scss")
+  .pipe(sourcemaps.init())
   .pipe(sass())
+  .pipe(sourcemaps.write())
   .pipe(gulp.dest("css"))
   .pipe(reload({stream: true}));
 });
