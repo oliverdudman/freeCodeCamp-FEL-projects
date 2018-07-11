@@ -44,7 +44,8 @@
       }
     },
     "env": {
-      "browser": true
+      "browser": true,
+      "amd": true
     },
     "extends": [
       "eslint:recommended",

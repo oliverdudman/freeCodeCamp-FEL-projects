@@ -17,14 +17,12 @@ const onError = function(err) {
   this.emit("end");
 };
 
-const plumberOptions = {
-  errorHandle: onError,
-};
-
 gulp.task("eslint", function() {
   return gulp.src("js/src/main.js")
   .pipe(eslint())
-  .pipe(eslint.format());
+  .pipe(eslint.format())
+  .pipe(eslint.failAfterError())
+  .on("error", onError);
 });
 
 gulp.task("sass", function() {
@@ -54,4 +52,4 @@ gulp.task("default", ["sass", "browserify", "eslint"], function() {
   gulp.watch(["scss/*.scss"], ["sass"]);
   gulp.watch(["index.html"], reload);
   gulp.watch(["js/src/main.js"], ["browserify", "eslint"]);
-})
+});
