@@ -44,6 +44,11 @@ function (_React$Component) {
       var text;
       var author;
       var tweetUrl;
+      var style = this.props.visable ? {
+        opacity: 1
+      } : {
+        opacity: 0
+      };
 
       if (this.props.quote) {
         text = this.props.quote.text;
@@ -56,7 +61,8 @@ function (_React$Component) {
       }
 
       return _react.default.createElement("div", {
-        id: "quote-box"
+        id: "quote-box",
+        style: style
       }, _react.default.createElement("div", {
         id: "text"
       }, _react.default.createElement("p", null, text)), _react.default.createElement("div", {
@@ -80,7 +86,8 @@ function (_React$Component) {
 QuoteBox.propTypes = {
   handleNewQuote: _propTypes.default.func.isRequired,
   handleTweet: _propTypes.default.func.isRequired,
-  quote: _propTypes.default.object
+  quote: _propTypes.default.object,
+  visable: _propTypes.default.bool
 };
 
 var App =
@@ -95,7 +102,8 @@ function (_React$Component2) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
     _this.state = {
-      quote: null
+      quote: null,
+      visable: true
     };
     _this.handleNewQuote = _this.handleNewQuote.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleTweet = _this.handleTweet.bind(_assertThisInitialized(_assertThisInitialized(_this)));
@@ -132,8 +140,20 @@ function (_React$Component2) {
           quote: {
             author: e.quoteAuthor,
             text: e.quoteText
-          }
-        });
+          },
+          visable: false
+        }, function () {
+          var _this2 = this;
+
+          console.log(this);
+          setTimeout(function () {
+            console.log(_this2);
+
+            _this2.setState({
+              visable: true
+            });
+          }, 1000);
+        }.bind(this));
         delete window[funcName];
         document.getElementById("get-jsonp").remove();
       }.bind(this);
@@ -157,7 +177,8 @@ function (_React$Component2) {
       }, _react.default.createElement(QuoteBox, {
         handleNewQuote: this.handleNewQuote,
         handleTweet: this.handleTweet,
-        quote: this.state.quote
+        quote: this.state.quote,
+        visable: this.state.visable
       })));
     }
   }]);

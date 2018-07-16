@@ -9,6 +9,7 @@ class QuoteBox extends React.Component {
     let text;
     let author;
     let tweetUrl;
+    let style = this.props.visable ? {opacity: 1} : {opacity: 0};
     if (this.props.quote) {
       text = this.props.quote.text;
       author = `- ${this.props.quote.author}`;
@@ -19,7 +20,7 @@ class QuoteBox extends React.Component {
       tweetUrl = "https://twitter.com/intent/tweet";
     }
     return (
-      <div id="quote-box">
+      <div id="quote-box" style={style}>
         <div id="text"><p>{text}</p></div>
         <div id="author"><p>{author}</p></div>
         <a id="tweet-quote" onClick={this.props.handleTweet} href={tweetUrl} target="_blank" rel="noopener noreferrer">Tweet</a>
@@ -32,7 +33,8 @@ class QuoteBox extends React.Component {
 QuoteBox.propTypes = {
   handleNewQuote: PropTypes.func.isRequired,
   handleTweet: PropTypes.func.isRequired,
-  quote: PropTypes.object
+  quote: PropTypes.object,
+  visable: PropTypes.bool
 };
 
 class App extends React.Component {
@@ -41,6 +43,7 @@ class App extends React.Component {
 
     this.state = {
       quote: null,
+      visable: true
     };
 
     this.handleNewQuote = this.handleNewQuote.bind(this);
@@ -68,7 +71,16 @@ class App extends React.Component {
     window[funcName] = function(e) {
       clearInterval(interval);
       console.log(e);
-      this.setState({quote: {author: e.quoteAuthor, text: e.quoteText}});
+      this.setState({
+        quote: {author: e.quoteAuthor, text: e.quoteText},
+         visable: false},
+         function() {
+           console.log(this);
+           setTimeout(() => {
+             console.log(this);
+             this.setState({visable: true});
+           }, 1000);
+      }.bind(this));
       delete window[funcName];
       document.getElementById("get-jsonp").remove();
     }.bind(this);
@@ -90,6 +102,7 @@ class App extends React.Component {
             handleNewQuote={this.handleNewQuote}
             handleTweet={this.handleTweet}
             quote={this.state.quote}
+            visable={this.state.visable}
           />
         </div>
       </div>
