@@ -41,19 +41,36 @@ function (_React$Component) {
   _createClass(QuoteBox, [{
     key: "render",
     value: function render() {
+      var text;
+      var author;
+      var tweetUrl;
+
+      if (this.props.quote) {
+        text = this.props.quote.text;
+        author = "- ".concat(this.props.quote.author);
+        tweetUrl = encodeURI("https://twitter.com/intent/tweet?text=".concat(text, " -").concat(author));
+      } else {
+        text = "loading...";
+        author = "";
+        tweetUrl = "https://twitter.com/intent/tweet";
+      }
+
       return _react.default.createElement("div", {
         id: "quote-box"
-      }, _react.default.createElement("p", {
+      }, _react.default.createElement("div", {
         id: "text"
-      }), _react.default.createElement("p", {
+      }, _react.default.createElement("p", null, text)), _react.default.createElement("div", {
         id: "author"
-      }), _react.default.createElement("button", {
+      }, _react.default.createElement("p", null, author)), _react.default.createElement("a", {
+        id: "tweet-quote",
+        onClick: this.props.handleTweet,
+        href: tweetUrl,
+        target: "_blank",
+        rel: "noopener noreferrer"
+      }, "Tweet"), _react.default.createElement("button", {
         id: "new-quote",
         onClick: this.props.handleNewQuote
-      }, "New Quote"), _react.default.createElement("button", {
-        id: "tweet-quote",
-        onClick: this.props.handleTweet
-      }, "Tweet"));
+      }, "New Quote"));
     }
   }]);
 
@@ -62,7 +79,8 @@ function (_React$Component) {
 
 QuoteBox.propTypes = {
   handleNewQuote: _propTypes.default.func.isRequired,
-  handleTweet: _propTypes.default.func.isRequired
+  handleTweet: _propTypes.default.func.isRequired,
+  quote: _propTypes.default.object
 };
 
 var App =
@@ -76,6 +94,9 @@ function (_React$Component2) {
     _classCallCheck(this, App);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
+    _this.state = {
+      quote: null
+    };
     _this.handleNewQuote = _this.handleNewQuote.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleTweet = _this.handleTweet.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.getNewQuote = _this.getNewQuote.bind(_assertThisInitialized(_assertThisInitialized(_this)));
@@ -101,16 +122,25 @@ function (_React$Component2) {
   }, {
     key: "getNewQuote",
     value: function getNewQuote() {
-      window.getData = function (e) {
+      var funcName = "handleData" + new Date().getTime();
+      console.log(funcName);
+
+      window[funcName] = function (e) {
         clearInterval(interval);
         console.log(e);
-        this.handleTweet();
-        delete window.getData;
+        this.setState({
+          quote: {
+            author: e.quoteAuthor,
+            text: e.quoteText
+          }
+        });
+        delete window[funcName];
         document.getElementById("get-jsonp").remove();
       }.bind(this);
 
       var script = document.createElement("script");
-      script.src = "https://api.forismatic.com/api/1.0/?method=getQuote&format=jsonp&lang=en&jsonp=getData";
+      script.src = "https://api.forismatic.com/api/1.0/?method=getQuote&format=jsonp&lang=en&jsonp=" + funcName;
+      console.log(script.src);
       script.id = "get-jsonp";
       document.getElementsByTagName("head")[0].appendChild(script);
       var interval = setTimeout(function () {
@@ -126,7 +156,8 @@ function (_React$Component2) {
         className: "background"
       }, _react.default.createElement(QuoteBox, {
         handleNewQuote: this.handleNewQuote,
-        handleTweet: this.handleTweet
+        handleTweet: this.handleTweet,
+        quote: this.state.quote
       })));
     }
   }]);
