@@ -52,7 +52,13 @@ function (_React$Component) {
 
       if (this.props.quote) {
         text = this.props.quote.text;
-        author = "- ".concat(this.props.quote.author);
+
+        if (this.props.quote.author) {
+          author = "- ".concat(this.props.quote.author);
+        } else {
+          author = "- Anon";
+        }
+
         tweetUrl = encodeURI("https://twitter.com/intent/tweet?text=".concat(text, " -").concat(author));
       } else {
         text = "loading...";

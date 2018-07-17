@@ -12,7 +12,11 @@ class QuoteBox extends React.Component {
     let style = this.props.visable ? {opacity: 1} : {opacity: 0};
     if (this.props.quote) {
       text = this.props.quote.text;
-      author = `- ${this.props.quote.author}`;
+      if (this.props.quote.author) {
+        author = `- ${this.props.quote.author}`;
+      } else {
+        author = "- Anon";
+      }
       tweetUrl = encodeURI(`https://twitter.com/intent/tweet?text=${text} -${author}`);
     } else {
       text = "loading...";
