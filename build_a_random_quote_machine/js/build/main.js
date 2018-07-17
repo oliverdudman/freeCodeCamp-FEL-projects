@@ -103,8 +103,10 @@ function (_React$Component2) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
     _this.state = {
       quote: null,
-      visable: true
+      visable: true,
+      colorIndex: 0
     };
+    _this.COLORS = ["#ED5565", "#FC6E51", "#FFCE54", "#A0D468", "#48CFAD", "#4FC1E9", "#5D9CEC", "#AC92EC", "#EC87C0", "#CCD1D9"];
     _this.handleNewQuote = _this.handleNewQuote.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleTweet = _this.handleTweet.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.getNewQuote = _this.getNewQuote.bind(_assertThisInitialized(_assertThisInitialized(_this)));
@@ -130,72 +132,82 @@ function (_React$Component2) {
   }, {
     key: "getNewQuote",
     value: function getNewQuote() {
+      var _this2 = this;
+
+      var author;
+      var text;
       var funcName = "handleData" + new Date().getTime();
-      console.log(funcName);
+      var interval = null;
       var script = document.createElement("script");
       script.src = "https://api.forismatic.com/api/1.0/?method=getQuote&format=jsonp&lang=en&jsonp=" + funcName;
       console.log(script.src);
       script.id = "get-jsonp";
+
+      script.onerror = function () {
+        console.log("script error");
+      };
+
       document.getElementsByTagName("head")[0].appendChild(script);
-      var interval = setTimeout(function () {
+      interval = setTimeout(function () {
         console.log("still running!!");
+        text = "still loading...";
+        clearInterval(interval);
+        interval = null;
       }, 400);
       this.setState({
         visable: false
-      });
-      var testVar = "hello Oliuver";
-      var author;
-      var text;
-
-      window[funcName] = function (e) {
-        var _this2 = this;
-
-        author = e.quoteAuthor;
-        text = e.quoteText;
-        console.log(testVar);
-        clearInterval(interval);
-        console.log(e);
-        console.log(this);
+      }, function () {
         setTimeout(function () {
-          console.log(_this2);
+          console.log(author, script.src);
+          var colorIndex = (_this2.state.colorIndex + 1) % _this2.COLORS.length;
 
           _this2.setState({
             quote: {
               author: author,
               text: text
             },
-            visable: false
-          }, function () {
-            var _this3 = this;
-
-            console.log(this);
-            setTimeout(function () {
-              console.log(_this3);
-
-              _this3.setState({
-                visable: true
-              });
-            }, 1000);
-          }.bind(_this2));
-
-          delete window[funcName];
-          document.getElementById("get-jsonp").remove();
+            visable: true,
+            colorIndex: colorIndex
+          });
         }, 1000);
+      });
+
+      window[funcName] = function (e) {
+        author = e.quoteAuthor;
+        text = e.quoteText;
+        console.log(interval);
+
+        if (!interval) {
+          this.setState({
+            quote: {
+              author: author,
+              text: text
+            },
+            visable: true
+          });
+        }
+
+        clearInterval(interval);
+        interval = null;
+        console.log(e);
+        console.log("wrkig");
       }.bind(this);
     }
   }, {
     key: "render",
     value: function render() {
+      var style = {
+        backgroundColor: this.COLORS[this.state.colorIndex]
+      };
       return _react.default.createElement("div", {
-        className: "background"
-      }, _react.default.createElement("div", {
-        className: "background"
+        className: "background",
+        style: style
       }, _react.default.createElement(QuoteBox, {
         handleNewQuote: this.handleNewQuote,
         handleTweet: this.handleTweet,
         quote: this.state.quote,
         visable: this.state.visable
-      })));
+      }));
     }
   }]);
 

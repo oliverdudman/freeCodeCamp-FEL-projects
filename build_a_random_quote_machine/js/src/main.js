@@ -43,8 +43,11 @@ class App extends React.Component {
 
     this.state = {
       quote: null,
-      visable: true
+      visable: true,
+      colorIndex: 0
     };
+
+    this.COLORS = ["#ED5565", "#FC6E51", "#FFCE54", "#A0D468", "#48CFAD", "#4FC1E9", "#5D9CEC", "#AC92EC", "#EC87C0", "#CCD1D9"];
 
     this.handleNewQuote = this.handleNewQuote.bind(this);
     this.handleTweet = this.handleTweet.bind(this);
@@ -65,59 +68,64 @@ class App extends React.Component {
   }
 
   getNewQuote() {
+    let author;
+    let text;
     let funcName = "handleData" + new Date().getTime();
-    console.log(funcName);
+    let interval = null;
 
     let script = document.createElement("script");
     script.src = "https://api.forismatic.com/api/1.0/?method=getQuote&format=jsonp&lang=en&jsonp=" + funcName;
     console.log(script.src);
     script.id = "get-jsonp";
+    script.onerror = () => {console.log("script error");};
     document.getElementsByTagName("head")[0].appendChild(script);
-    let interval = setTimeout(function() {
+    interval = setTimeout(function() {
       console.log("still running!!");
+      text= "still loading...";
+      clearInterval(interval);
+      interval = null;
     }, 400);
 
-    this.setState({visable: false});
-    let testVar = "hello Oliuver";
-    let author;
-    let text;
+    this.setState({visable: false}, () => {
+      setTimeout(() => {
+        console.log(author, script.src);
+        let colorIndex = (this.state.colorIndex + 1) % this.COLORS.length;
+        this.setState({
+          quote: {author: author, text: text},
+          visable: true,
+          colorIndex: colorIndex
+        });
+      }, 1000);
+    });
+
 
     window[funcName] = function(e) {
       author = e.quoteAuthor;
       text = e.quoteText;
-      console.log(testVar);
+      console.log(interval);
+      if (!interval) {
+        this.setState({quote: {author: author, text: text}, visable: true});
+      }
       clearInterval(interval);
+      interval = null;
       console.log(e);
-      console.log(this);
-      setTimeout(() => {
-        console.log(this);
-        this.setState({
-          quote: {author: author, text: text},
-           visable: false},
-           function() {
-             console.log(this);
-             setTimeout(() => {
-               console.log(this);
-               this.setState({visable: true});
-             }, 1000);
-        }.bind(this));
-        delete window[funcName];
-        document.getElementById("get-jsonp").remove();
-    }, 1000);
+      console.log("wrkig");
   }.bind(this);
 }
 
   render() {
+    const style = {
+      backgroundColor: this.COLORS[this.state.colorIndex]
+    };
+
     return (
-      <div className="background">
-        <div className="background">
-          <QuoteBox
-            handleNewQuote={this.handleNewQuote}
-            handleTweet={this.handleTweet}
-            quote={this.state.quote}
-            visable={this.state.visable}
-          />
-        </div>
+      <div className="background" style={style}>
+        <QuoteBox
+          handleNewQuote={this.handleNewQuote}
+          handleTweet={this.handleTweet}
+          quote={this.state.quote}
+          visable={this.state.visable}
+        />
       </div>
     );
   }
