@@ -3,6 +3,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 
 class QuoteBox extends React.Component {
   render() {
@@ -26,7 +28,7 @@ class QuoteBox extends React.Component {
     return (
       <div id="quote-box" style={style}>
         <div id="text"><p>{text}</p></div>
-        <div id="author"><p>{author}</p></div>
+        <div id="author"><p><FontAwesomeIcon icon={faCoffee} /> {author}</p></div>
         <a id="tweet-quote" onClick={this.props.handleTweet} href={tweetUrl} target="_blank" rel="noopener noreferrer">Tweet</a>
         <button id="new-quote" onClick={this.props.handleNewQuote}>New Quote</button>
       </div>
