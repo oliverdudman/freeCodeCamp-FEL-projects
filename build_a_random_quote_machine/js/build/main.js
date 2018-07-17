@@ -132,32 +132,6 @@ function (_React$Component2) {
     value: function getNewQuote() {
       var funcName = "handleData" + new Date().getTime();
       console.log(funcName);
-
-      window[funcName] = function (e) {
-        clearInterval(interval);
-        console.log(e);
-        this.setState({
-          quote: {
-            author: e.quoteAuthor,
-            text: e.quoteText
-          },
-          visable: false
-        }, function () {
-          var _this2 = this;
-
-          console.log(this);
-          setTimeout(function () {
-            console.log(_this2);
-
-            _this2.setState({
-              visable: true
-            });
-          }, 1000);
-        }.bind(this));
-        delete window[funcName];
-        document.getElementById("get-jsonp").remove();
-      }.bind(this);
-
       var script = document.createElement("script");
       script.src = "https://api.forismatic.com/api/1.0/?method=getQuote&format=jsonp&lang=en&jsonp=" + funcName;
       console.log(script.src);
@@ -166,6 +140,48 @@ function (_React$Component2) {
       var interval = setTimeout(function () {
         console.log("still running!!");
       }, 400);
+      this.setState({
+        visable: false
+      });
+      var testVar = "hello Oliuver";
+      var author;
+      var text;
+
+      window[funcName] = function (e) {
+        var _this2 = this;
+
+        author = e.quoteAuthor;
+        text = e.quoteText;
+        console.log(testVar);
+        clearInterval(interval);
+        console.log(e);
+        console.log(this);
+        setTimeout(function () {
+          console.log(_this2);
+
+          _this2.setState({
+            quote: {
+              author: author,
+              text: text
+            },
+            visable: false
+          }, function () {
+            var _this3 = this;
+
+            console.log(this);
+            setTimeout(function () {
+              console.log(_this3);
+
+              _this3.setState({
+                visable: true
+              });
+            }, 1000);
+          }.bind(_this2));
+
+          delete window[funcName];
+          document.getElementById("get-jsonp").remove();
+        }, 1000);
+      }.bind(this);
     }
   }, {
     key: "render",

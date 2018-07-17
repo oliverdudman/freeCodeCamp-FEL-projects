@@ -68,23 +68,6 @@ class App extends React.Component {
     let funcName = "handleData" + new Date().getTime();
     console.log(funcName);
 
-    window[funcName] = function(e) {
-      clearInterval(interval);
-      console.log(e);
-      this.setState({
-        quote: {author: e.quoteAuthor, text: e.quoteText},
-         visable: false},
-         function() {
-           console.log(this);
-           setTimeout(() => {
-             console.log(this);
-             this.setState({visable: true});
-           }, 1000);
-      }.bind(this));
-      delete window[funcName];
-      document.getElementById("get-jsonp").remove();
-    }.bind(this);
-
     let script = document.createElement("script");
     script.src = "https://api.forismatic.com/api/1.0/?method=getQuote&format=jsonp&lang=en&jsonp=" + funcName;
     console.log(script.src);
@@ -93,7 +76,37 @@ class App extends React.Component {
     let interval = setTimeout(function() {
       console.log("still running!!");
     }, 400);
-  }
+
+    this.setState({visable: false});
+    let testVar = "hello Oliuver";
+    let author;
+    let text;
+
+    window[funcName] = function(e) {
+      author = e.quoteAuthor;
+      text = e.quoteText;
+      console.log(testVar);
+      clearInterval(interval);
+      console.log(e);
+      console.log(this);
+      setTimeout(() => {
+        console.log(this);
+        this.setState({
+          quote: {author: author, text: text},
+           visable: false},
+           function() {
+             console.log(this);
+             setTimeout(() => {
+               console.log(this);
+               this.setState({visable: true});
+             }, 1000);
+        }.bind(this));
+        delete window[funcName];
+        document.getElementById("get-jsonp").remove();
+    }, 1000);
+  }.bind(this);
+}
+
   render() {
     return (
       <div className="background">
