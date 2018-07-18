@@ -51,5 +51,5 @@ gulp.task("default", ["sass", "browserify", "eslint"], function() {
 
   gulp.watch(["scss/*.scss"], ["sass"]);
   gulp.watch(["index.html"], reload);
-  gulp.watch(["js/src/main.js"], ["browserify", "eslint"]);
+  gulp.watch(["js/src/*.js"], ["browserify", "eslint"]);
 });
