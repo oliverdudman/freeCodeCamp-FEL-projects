@@ -2,46 +2,12 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+import QuoteBox from "./QuoteBox";
 
-class QuoteBox extends React.Component {
-  render() {
-    let text;
-    let author;
-    let tweetUrl;
-    let style = this.props.visable ? {opacity: 1} : {opacity: 0};
-    if (this.props.quote) {
-      text = this.props.quote.text;
-      if (this.props.quote.author) {
-        author = `- ${this.props.quote.author}`;
-      } else {
-        author = "- Anon";
-      }
-      tweetUrl = encodeURI(`https://twitter.com/intent/tweet?text=${text} -${author}`);
-    } else {
-      text = "loading...";
-      author = "";
-      tweetUrl = "https://twitter.com/intent/tweet";
-    }
-    return (
-      <div id="quote-box" style={style}>
-        <div id="text"><p>{text}</p></div>
-        <div id="author"><p><FontAwesomeIcon icon={faCoffee} /> {author}</p></div>
-        <a id="tweet-quote" onClick={this.props.handleTweet} href={tweetUrl} target="_blank" rel="noopener noreferrer">Tweet</a>
-        <button id="new-quote" onClick={this.props.handleNewQuote}>New Quote</button>
-      </div>
-    );
-  }
-}
-
-QuoteBox.propTypes = {
-  handleNewQuote: PropTypes.func.isRequired,
-  handleTweet: PropTypes.func.isRequired,
-  quote: PropTypes.object,
-  visable: PropTypes.bool
-};
+library.add(faTwitter, faQuoteLeft);
 
 class App extends React.Component {
   constructor(props) {
