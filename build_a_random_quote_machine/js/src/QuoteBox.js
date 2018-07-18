@@ -23,10 +23,12 @@ class QuoteBox extends React.Component {
     }
     return (
       <div id="quote-box" style={style}>
-        <div id="text"><p><FontAwesomeIcon icon="quote-left" />{text}</p></div>
+        <FontAwesomeIcon icon="quote-left" size="2x" className="quotes"/>
+        <div id="text"><p>{text}</p></div>
+        <FontAwesomeIcon icon="quote-right" size="2x" className="quotes quotes--right"/>
         <div id="author"><p>{author}</p></div>
-        <a id="tweet-quote" onClick={this.props.handleTweet} href={tweetUrl} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={["fab", "twitter"]} /></a>
-        <button id="new-quote" onClick={this.props.handleNewQuote}>New Quote</button>
+        <a id="tweet-quote" className="btn" onClick={this.props.handleTweet} href={tweetUrl} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={["fab", "twitter"]} /> Tweet</a>
+        <button id="new-quote" className="btn" onClick={this.props.handleNewQuote}>New Quote</button>
       </div>
     );
   }

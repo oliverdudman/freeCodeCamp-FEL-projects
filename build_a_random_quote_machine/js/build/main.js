@@ -74,22 +74,30 @@ function (_React$Component) {
       return _react.default.createElement("div", {
         id: "quote-box",
         style: style
-      }, _react.default.createElement("div", {
+      }, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
+        icon: "quote-left",
+        size: "2x",
+        className: "quotes"
+      }), _react.default.createElement("div", {
         id: "text"
-      }, _react.default.createElement("p", null, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
-        icon: "quote-left"
-      }), text)), _react.default.createElement("div", {
+      }, _react.default.createElement("p", null, text)), _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
+        icon: "quote-right",
+        size: "2x",
+        className: "quotes quotes--right"
+      }), _react.default.createElement("div", {
         id: "author"
       }, _react.default.createElement("p", null, author)), _react.default.createElement("a", {
         id: "tweet-quote",
+        className: "btn",
         onClick: this.props.handleTweet,
         href: tweetUrl,
         target: "_blank",
         rel: "noopener noreferrer"
       }, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
         icon: ["fab", "twitter"]
-      })), _react.default.createElement("button", {
+      }), " Tweet"), _react.default.createElement("button", {
         id: "new-quote",
+        className: "btn",
         onClick: this.props.handleNewQuote
       }, "New Quote"));
     }
@@ -142,7 +150,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-_fontawesomeSvgCore.library.add(_freeBrandsSvgIcons.faTwitter, _freeSolidSvgIcons.faQuoteLeft);
+_fontawesomeSvgCore.library.add(_freeBrandsSvgIcons.faTwitter, _freeSolidSvgIcons.faQuoteLeft, _freeSolidSvgIcons.faQuoteRight);
 
 var App =
 /*#__PURE__*/

@@ -3,11 +3,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
+import { faQuoteLeft, faQuoteRight } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import QuoteBox from "./QuoteBox";
 
-library.add(faTwitter, faQuoteLeft);
+library.add(faTwitter, faQuoteLeft, faQuoteRight);
 
 class App extends React.Component {
   constructor(props) {
