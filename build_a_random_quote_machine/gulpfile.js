@@ -9,6 +9,7 @@ const source = require("vinyl-source-stream");
 const sourcemaps = require("gulp-sourcemaps");
 const notify = require("gulp-notify");
 const rename = require("gulp-rename");
+const envify = require("envify/custom");
 
 const onError = function(err) {
   notify.onError({
@@ -62,4 +63,16 @@ gulp.task("build_sass", function() {
   .pipe(sass({outputStyle: "compressed"}))
   .pipe(sourcemaps.write("./"))
   .pipe(gulp.dest("dist/css"));
+});
+
+gulp.task("build_js", function() {
+  // process.env.NODE_ENV = "production";
+
+  return browserify("js/src/main.js", {debug: true})
+  .transform("babelify", {presets: ["@babel/preset-env", "@babel/preset-react"]})
+  .transform({global: true}, envify({NODE_ENV: "production"}))
+  .transform("uglifyify", {global: true})
+  .bundle()
+  .pipe(source("main.js"))
+  .pipe(gulp.dest("dist/js"));
 });
