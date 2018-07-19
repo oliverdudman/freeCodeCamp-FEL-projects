@@ -11,6 +11,7 @@ const notify = require("gulp-notify");
 const rename = require("gulp-rename");
 const envify = require("envify/custom");
 const htmlreplace = require("gulp-html-replace");
+const clean = require("gulp-clean");
 
 const onError = function(err) {
   notify.onError({
@@ -87,4 +88,9 @@ gulp.task("build_js", function() {
   .bundle()
   .pipe(source("main.min.js"))
   .pipe(gulp.dest("dist/js"));
+});
+
+gulp.task("clean", function() {
+  return gulp.src("dist")
+  .pipe(clean());
 });
