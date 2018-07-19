@@ -8,6 +8,7 @@ const browserify = require("browserify");
 const source = require("vinyl-source-stream");
 const sourcemaps = require("gulp-sourcemaps");
 const notify = require("gulp-notify");
+const rename = require("gulp-rename");
 
 const onError = function(err) {
   notify.onError({
@@ -52,4 +53,13 @@ gulp.task("default", ["sass", "browserify", "eslint"], function() {
   gulp.watch(["scss/*.scss"], ["sass"]);
   gulp.watch(["index.html"], reload);
   gulp.watch(["js/src/*.js"], ["browserify", "eslint"]);
+});
+
+gulp.task("build_sass", function() {
+  return gulp.src("scss/main.scss")
+  .pipe(rename("all.min.scss"))
+  .pipe(sourcemaps.init())
+  .pipe(sass({outputStyle: "compressed"}))
+  .pipe(sourcemaps.write("./"))
+  .pipe(gulp.dest("dist/css"));
 });
