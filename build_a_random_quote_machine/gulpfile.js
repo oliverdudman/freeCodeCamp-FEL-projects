@@ -10,6 +10,7 @@ const sourcemaps = require("gulp-sourcemaps");
 const notify = require("gulp-notify");
 const rename = require("gulp-rename");
 const envify = require("envify/custom");
+const htmlreplace = require("gulp-html-replace");
 
 const onError = function(err) {
   notify.onError({
@@ -56,6 +57,17 @@ gulp.task("default", ["sass", "browserify", "eslint"], function() {
   gulp.watch(["js/src/*.js"], ["browserify", "eslint"]);
 });
 
+// build tools
+
+gulp.task("build_html", function() {
+  return gulp.src("index.html")
+  .pipe(htmlreplace({
+    "css": "dist/css/all.min.css",
+    "js": "dist/js/main.min.js"
+  }))
+  .pipe(gulp.dest("dist"));
+});
+
 gulp.task("build_sass", function() {
   return gulp.src("scss/main.scss")
   .pipe(rename("all.min.scss"))
@@ -73,6 +85,6 @@ gulp.task("build_js", function() {
   .transform({global: true}, envify({NODE_ENV: "production"}))
   .transform("uglifyify", {global: true})
   .bundle()
-  .pipe(source("main.js"))
+  .pipe(source("main.min.js"))
   .pipe(gulp.dest("dist/js"));
 });
