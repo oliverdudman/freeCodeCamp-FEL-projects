@@ -12,6 +12,9 @@ const rename = require("gulp-rename");
 const envify = require("envify/custom");
 const htmlreplace = require("gulp-html-replace");
 const clean = require("gulp-clean");
+const runSequence = require("run-sequence");
+const htmlmin = require("gulp-htmlmin");
+const exorcist = require("exorcist");
 
 const onError = function(err) {
   notify.onError({
@@ -63,9 +66,10 @@ gulp.task("default", ["sass", "browserify", "eslint"], function() {
 gulp.task("build_html", function() {
   return gulp.src("index.html")
   .pipe(htmlreplace({
-    "css": "dist/css/all.min.css",
-    "js": "dist/js/main.min.js"
+    "css": "css/all.min.css",
+    "js": "js/main.min.js"
   }))
+  .pipe(htmlmin({collapseWhitespace: true}))
   .pipe(gulp.dest("dist"));
 });
 
@@ -79,13 +83,12 @@ gulp.task("build_sass", function() {
 });
 
 gulp.task("build_js", function() {
-  // process.env.NODE_ENV = "production";
-
   return browserify("js/src/main.js", {debug: true})
   .transform("babelify", {presets: ["@babel/preset-env", "@babel/preset-react"]})
   .transform({global: true}, envify({NODE_ENV: "production"}))
   .transform("uglifyify", {global: true})
   .bundle()
+  .pipe(exorcist("dist/js/main.min.map.js"))
   .pipe(source("main.min.js"))
   .pipe(gulp.dest("dist/js"));
 });
@@ -93,4 +96,8 @@ gulp.task("build_js", function() {
 gulp.task("clean", function() {
   return gulp.src("dist")
   .pipe(clean());
+});
+
+gulp.task("build", function(callback) {
+  runSequence("clean", ["build_html", "build_sass", "build_js"], callback);
 });
