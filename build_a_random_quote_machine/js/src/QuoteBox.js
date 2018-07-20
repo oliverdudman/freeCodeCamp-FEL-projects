@@ -27,7 +27,7 @@ class QuoteBox extends React.Component {
         <div id="text"><p>{text}</p></div>
         <FontAwesomeIcon icon="quote-right" size="2x" className="quotes quotes--right"/>
         <div id="author"><p>{author}</p></div>
-        <a id="tweet-quote" className="btn" onClick={this.props.handleTweet} href={tweetUrl} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={["fab", "twitter"]} /> Tweet</a>
+        <a id="tweet-quote" className="btn" href={tweetUrl} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={["fab", "twitter"]} /> Tweet</a>
         <button id="new-quote" className="btn" onClick={this.props.handleNewQuote}>New Quote</button>
       </div>
     );
@@ -36,7 +36,6 @@ class QuoteBox extends React.Component {
 
 QuoteBox.propTypes = {
   handleNewQuote: PropTypes.func.isRequired,
-  handleTweet: PropTypes.func.isRequired,
   quote: PropTypes.object,
   visable: PropTypes.bool
 };
