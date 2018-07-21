@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Editor from "./Editor";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      value: 'Oliver\'s React Markdown Previewer\n' +
+      text: 'Oliver\'s React Markdown Previewer\n' +
             '=======\n\n' +
             'Sub-heading\n' +
             '-----------\n\n' +
@@ -28,10 +29,10 @@ class App extends React.Component {
             'The rain---not the reign---in\n' +
             'Spain.\n\n' +
             '*[Herman Fassett](https://freecodecamp.com/hermanfassett)*\n' +
-            `${"\`\`\`"}
+            `${"```"}
             // this is a code block
             <h1>hi</h1>
-            ${"\`\`\`"}\n` +
+            ${"```"}\n` +
             `> blockquote\n` +
             `![React Logo w/ Text](https://goo.gl/Umyytc)\n`
     };
@@ -40,15 +41,15 @@ class App extends React.Component {
   }
 
   handleChange(e) {
-    let value = e.target.value;
-    this.setState({value: value});
+    let text = e.target.value;
+    this.setState({text: text});
   }
 
   render() {
     return (
       <div>
-        <textarea id= "editor" type="type" value={this.state.value} onChange={this.handleChange}/>
-        <p id="preview" dangerouslySetInnerHTML={{__html: window.marked(this.state.value)}}></p>
+        <Editor text={this.state.text} handleChange={this.handleChange} />
+        <p id="preview" dangerouslySetInnerHTML={{__html: window.marked(this.state.text)}}></p>
       </div>
     );
   }
