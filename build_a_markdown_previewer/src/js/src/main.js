@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Editor from "./Editor";
+import Previewer from "./Previewer"; 
 
 class App extends React.Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class App extends React.Component {
     return (
       <div>
         <Editor text={this.state.text} handleChange={this.handleChange} />
-        <p id="preview" dangerouslySetInnerHTML={{__html: window.marked(this.state.text)}}></p>
+        <Previewer text={this.state.text} />
       </div>
     );
   }
