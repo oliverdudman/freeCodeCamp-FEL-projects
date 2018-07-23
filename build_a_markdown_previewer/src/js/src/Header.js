@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function Header(props) {
   const icon = props.fullScreen ? "minus" : "plus";
   return (
-    <div className="display-box__header">
+    <div id={props.text} className="display-box__header" onClick={() => props.handleClick(props.text)}>
       <h2>{props.text}</h2>
       <FontAwesomeIcon icon={icon} />
     </div>
@@ -14,7 +14,8 @@ function Header(props) {
 
 Header.propTypes = {
   text: PropTypes.string.isRequired,
-  fullScreen: PropTypes.bool.isRequired
+  fullScreen: PropTypes.bool.isRequired,
+  handleClick:PropTypes.func.isRequired
 };
 
 export default Header;

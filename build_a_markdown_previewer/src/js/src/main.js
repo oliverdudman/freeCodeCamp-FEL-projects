@@ -1,13 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus';
+import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import Editor from "./Editor";
-import Previewer from "./Previewer"; 
+import Previewer from "./Previewer";
+
+library.add(faMinus, faPlus);
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      display: "all",
       text: 'Oliver\'s React Markdown Previewer\n' +
             '=======\n\n' +
             'Sub-heading\n' +
@@ -39,6 +46,7 @@ class App extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleFullScreen = this.handleFullScreen.bind(this);
   }
 
   handleChange(e) {
@@ -46,11 +54,29 @@ class App extends React.Component {
     this.setState({text: text});
   }
 
+  handleFullScreen(e) {
+    if (this.state.display === "all") {
+      let display = e.toLocaleLowerCase();
+      this.setState({display: display});
+    } else {
+      this.setState({display: "all"});
+    }
+  }
+
   render() {
     return (
       <div>
-        <Editor text={this.state.text} handleChange={this.handleChange} />
-        <Previewer text={this.state.text} />
+        <Editor
+          text={this.state.text}
+          handleChange={this.handleChange}
+          display={this.state.display}
+          handleFullScreen={this.handleFullScreen}
+        />
+        <Previewer
+          text={this.state.text}
+          display={this.state.display}
+          handleFullScreen={this.handleFullScreen}
+        />
       </div>
     );
   }
