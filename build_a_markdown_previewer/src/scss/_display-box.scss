@@ -1,0 +1,12 @@
+.display-box {
+  margin: 2rem;
+  border: $borders;
+
+  &__header {
+    border-bottom: $borders;
+
+    h2 {
+      margin: 0.2rem;
+    }
+  }
+}

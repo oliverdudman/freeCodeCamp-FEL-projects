@@ -1,3 +1,7 @@
-h1 {
-  color: green;
+@import "vars";
+
+@import "display-box";
+
+html, body {
+  margin: 0px;
 }
