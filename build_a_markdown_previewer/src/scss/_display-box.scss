@@ -64,5 +64,33 @@
     max-width: 1000px;
     width: 100%;
     box-sizing: border-box;
+
+    a {
+      &:link {
+        color: $link-color;
+      }
+
+      &:visited {
+        color: darken($link-color, 5);
+      }
+
+      &:hover {
+        color: darken($link-color, 15);
+      }
+
+      &:active {
+        color: darken($link-color, 20);
+      }
+    }
+
+    blockquote {
+      padding-left: 0.5rem;
+      border-left: 3px solid white;
+    }
+
+    pre {
+      background-color: lighten($base-color, 35);
+      color: lighten($font-color, 30);
+    }
   }
 }
