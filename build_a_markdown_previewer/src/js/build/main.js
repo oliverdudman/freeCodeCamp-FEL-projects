@@ -50,13 +50,14 @@ function (_React$Component) {
 
       if (this.props.display === "all" || this.props.display === "editor") {
         return _react.default.createElement("div", {
-          className: "display-box"
+          className: "display-box display-box--editor " + (fullScreen ? "active" : "")
         }, _react.default.createElement(_header.default, {
           text: "Editor",
           fullScreen: fullScreen,
           handleClick: this.props.handleFullScreen
         }), _react.default.createElement("textarea", {
           id: "editor",
+          className: "display-box__content",
           type: "type",
           value: this.props.text,
           onChange: this.props.handleChange
@@ -168,13 +169,14 @@ function (_React$Component) {
 
       if (this.props.display === "previewer" || this.props.display === "all") {
         return _react.default.createElement("div", {
-          className: "display-box test-fs"
+          className: "display-box display-box--previewer " + (fullScreen ? "active" : "")
         }, _react.default.createElement(_Header.default, {
           text: "Previewer",
           fullScreen: fullScreen,
           handleClick: this.props.handleFullScreen
         }), _react.default.createElement("div", {
           id: "preview",
+          className: "display-box__content",
           dangerouslySetInnerHTML: {
             __html: window.marked(this.props.text)
           }
@@ -317,7 +319,9 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", null, _react.default.createElement(_Editor.default, {
+      return _react.default.createElement("div", {
+        className: "container"
+      }, _react.default.createElement(_Editor.default, {
         text: this.state.text,
         handleChange: this.handleChange,
         display: this.state.display,

@@ -7,9 +7,9 @@ class Editor extends React.Component {
     const fullScreen = this.props.display === "editor";
     if (this.props.display === "all" || this.props.display === "editor") {
       return (
-        <div className="display-box">
+        <div className={"display-box display-box--editor " + (fullScreen ? "active" : "")}>
           <Header text="Editor" fullScreen={fullScreen} handleClick={this.props.handleFullScreen}/>
-          <textarea id= "editor" type="type" value={this.props.text} onChange={this.props.handleChange}/>
+          <textarea id= "editor" className="display-box__content" type="type" value={this.props.text} onChange={this.props.handleChange}/>
         </div>
       );
     } else {

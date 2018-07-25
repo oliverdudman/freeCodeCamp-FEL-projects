@@ -7,9 +7,9 @@ class Previewer extends React.Component {
     const fullScreen = this.props.display === "previewer";
     if (this.props.display === "previewer" || this.props.display === "all") {
       return (
-        <div className="display-box test-fs">
+        <div className={"display-box display-box--previewer " + (fullScreen ? "active" : "")}>
           <Header text="Previewer" fullScreen={fullScreen} handleClick={this.props.handleFullScreen}/>
-          <div id="preview" dangerouslySetInnerHTML={{__html: window.marked(this.props.text)}}></div>
+          <div id="preview" className="display-box__content" dangerouslySetInnerHTML={{__html: window.marked(this.props.text)}}></div>
         </div>
       );
     } else {

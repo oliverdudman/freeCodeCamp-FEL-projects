@@ -1,12 +1,68 @@
 .display-box {
-  margin: 2rem;
+  margin-bottom: 2rem;
   border: $borders;
 
-  &__header {
-    border-bottom: $borders;
+  background-color: #484848;
+  color: $font-color;
 
-    h2 {
-      margin: 0.2rem;
+  &.active {
+    max-width: none;
+    width: 95%;
+    height: 100%;
+    margin: 0;
+
+    textarea {
+      height: calc(100% - #{$header-height});
     }
+
+    .display-box__previewer {
+      min-height: 100%;
+    }
+  }
+
+  &__content {
+    color: $font-color;
+    padding: 0.5rem;
+  }
+
+  &--editor {
+    width: 100%;
+    max-width: 600px;
+
+    textarea {
+      display: block;
+      min-width: 100%;
+      max-width: 100%;
+      min-height:30vh;
+      box-sizing: border-box;
+      border: none;
+
+      background-color: #484848;
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: $header-height;
+    padding: 0 0.5em;
+    border-bottom: $borders;
+    box-sizing: border-box;
+
+    background-color: lighten($base-color, 40);
+    color: darken($font-color, 40);
+
+    cursor: pointer;
+
+    &:hover {
+      color: darken($font-color, 55);
+    }
+  }
+
+  &--previewer {
+    max-width: 1000px;
+    width: 100%;
+    box-sizing: border-box;
   }
 }

@@ -65,7 +65,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <Editor
           text={this.state.text}
           handleChange={this.handleChange}

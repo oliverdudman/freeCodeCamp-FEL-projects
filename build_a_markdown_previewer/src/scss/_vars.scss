@@ -1,1 +1,8 @@
-$borders: 1px solid black;
+//colors
+$base-color: #333333;
+$font-color: #82C7E5;
+
+$borders: 1px solid lighten($base-color, 50);
+
+//sizes
+$header-height: 2.5rem;
