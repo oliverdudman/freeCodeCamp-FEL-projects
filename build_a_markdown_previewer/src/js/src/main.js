@@ -41,8 +41,8 @@ class App extends React.Component {
             // this is a code block
             <h1>hi</h1>
             ${"```"}\n` +
-            `> blockquote\n` +
-            `![React Logo w/ Text](https://goo.gl/Umyytc)\n`
+            `![React Logo w/ Text](https://goo.gl/Umyytc)\n` +
+            `> blockquote\n`
     };
 
     this.handleChange = this.handleChange.bind(this);
