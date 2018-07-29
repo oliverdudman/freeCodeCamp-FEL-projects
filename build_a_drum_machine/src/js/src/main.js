@@ -17,15 +17,35 @@ class DrumMachine extends React.Component {
       X: {src: "https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3", name: "Kick-1"},
       C: {src: "https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3", name: "Cev_H2"}
     };
+
+    this.state = {
+      currentSound: null
+    };
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
+  componentDidMount() {
+    document.addEventListener("keydown", (e) => {
+      let c = String.fromCharCode(e.keyCode);
+      if (this.SOUNDS[c]) {
+        this.setState({currentSound: c});
+      }
+    });
 
+  }
+
+  handleClick(e) {
+    let c = e.target.lastChild.id;
+    this.setState({currentSound: c});
+  }
 
   render() {
+    const soundText = this.state.currentSound ? this.SOUNDS[this.state.currentSound].name : null;
     return (
       <div id="drum-machine">
-        <div id="display"></div>
-        <DrumPad sounds={this.SOUNDS}/>
+        <div id="display">{soundText}</div>
+        <DrumPad sounds={this.SOUNDS} handleClick={this.handleClick} currentSound={this.state.currentSound}/>
       </div>
     );
   }
