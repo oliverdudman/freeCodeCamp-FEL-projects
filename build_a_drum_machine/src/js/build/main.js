@@ -62,7 +62,9 @@ function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      return Object.keys(this.props.sounds).map(function (key) {
+      return _react.default.createElement("div", {
+        className: "drum-pad-container"
+      }, Object.keys(this.props.sounds).map(function (key) {
         return _react.default.createElement("button", {
           id: _this2.props.sounds[key].name,
           className: "drum-pad",
@@ -74,7 +76,7 @@ function (_React$Component) {
           src: _this2.props.sounds[key].src,
           ref: _this2[key]
         }));
-      });
+      }));
     }
   }]);
 
@@ -203,13 +205,15 @@ function (_React$Component) {
       var soundText = this.state.currentSound ? this.SOUNDS[this.state.currentSound].name : null;
       return _react.default.createElement("div", {
         id: "drum-machine"
-      }, _react.default.createElement("div", {
-        id: "display"
-      }, soundText), _react.default.createElement(_DrumPad.default, {
+      }, _react.default.createElement(_DrumPad.default, {
         sounds: this.SOUNDS,
         handleClick: this.handleClick,
         currentSound: this.state.currentSound
-      }));
+      }), _react.default.createElement("div", {
+        className: "controls"
+      }, _react.default.createElement("div", {
+        id: "display"
+      }, soundText)));
     }
   }]);
 

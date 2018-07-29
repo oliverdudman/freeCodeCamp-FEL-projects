@@ -44,8 +44,10 @@ class DrumMachine extends React.Component {
     const soundText = this.state.currentSound ? this.SOUNDS[this.state.currentSound].name : null;
     return (
       <div id="drum-machine">
-        <div id="display">{soundText}</div>
         <DrumPad sounds={this.SOUNDS} handleClick={this.handleClick} currentSound={this.state.currentSound}/>
+        <div className="controls">
+          <div id="display">{soundText}</div>
+        </div>
       </div>
     );
   }

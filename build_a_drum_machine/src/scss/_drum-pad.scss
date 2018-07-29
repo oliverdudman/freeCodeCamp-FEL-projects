@@ -1,0 +1,15 @@
+.drum-pad-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+
+  background-color: black;
+}
+
+.drum-pad {
+  width: $pad-size;
+  height: $pad-size;
+  margin: $pad-margin;
+
+  background-color: grey;
+  color: orange;
+}

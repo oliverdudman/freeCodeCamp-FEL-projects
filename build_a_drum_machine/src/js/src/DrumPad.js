@@ -22,13 +22,15 @@ class DrumPad extends React.Component {
 
   render() {
     return (
-      Object.keys(this.props.sounds).map((key) => {
-        return (
-          <button id={this.props.sounds[key].name} className="drum-pad" onClick={this.props.handleClick} key={key}>{key}
-            <audio id={key} className="clip" src={this.props.sounds[key].src} ref={this[key]}></audio>
-          </button>
-        );
-      })
+      <div className="drum-pad-container">
+        {Object.keys(this.props.sounds).map((key) => {
+          return (
+            <button id={this.props.sounds[key].name} className="drum-pad" onClick={this.props.handleClick} key={key}>{key}
+              <audio id={key} className="clip" src={this.props.sounds[key].src} ref={this[key]}></audio>
+            </button>
+          );
+        })}
+      </div>
     );
   }
 }
