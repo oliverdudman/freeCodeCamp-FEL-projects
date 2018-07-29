@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import DrumPad from './DrumPad';
+import Controls from "./Controls";
 
 class DrumMachine extends React.Component {
   constructor(props) {
@@ -45,9 +46,7 @@ class DrumMachine extends React.Component {
     return (
       <div id="drum-machine">
         <DrumPad sounds={this.SOUNDS} handleClick={this.handleClick} currentSound={this.state.currentSound}/>
-        <div className="controls">
-          <div id="display">{soundText}</div>
-        </div>
+        <Controls soundText={soundText}/>
       </div>
     );
   }
