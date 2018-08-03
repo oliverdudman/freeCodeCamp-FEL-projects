@@ -9,6 +9,10 @@ class DrumPad extends React.Component {
       this[key] = React.createRef();
     });
 
+    this.state = {
+      activePads: []
+    };
+
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.playAudio = this.playAudio.bind(this);
@@ -36,10 +40,18 @@ class DrumPad extends React.Component {
 
   playAudio(audio, text) {
     if (this.props.power) {
+      let activePads = this.state.activePads.concat(audio.id);
+      this.setState({activePads: activePads});
       audio.pause();
       audio.currentTime = 0;
       audio.volume = this.props.volume;
       audio.play();
+      audio.onended = () => {
+        let activePads = this.state.activePads.filter((e) => {
+          return e !== audio.id;
+        });
+        this.setState({activePads: activePads});
+      };
       this.props.setDisplayText(text);
     }
 
@@ -49,8 +61,9 @@ class DrumPad extends React.Component {
     return (
       <div className="drum-pad-container">
         {Object.keys(this.props.sounds).map((key) => {
+          let classes = this.state.activePads.includes(key) ? "drum-pad active" : "drum-pad";
           return (
-            <button id={this.props.sounds[key].name} className="drum-pad" onClick={this.handleClick} key={key}>
+            <button id={this.props.sounds[key].name} className={classes} onClick={this.handleClick} key={key}>
               {key}
               <audio id={key} className="clip" src={this.props.sounds[key].src} ref={this[key]}></audio>
             </button>

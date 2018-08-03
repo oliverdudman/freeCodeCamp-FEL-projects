@@ -66,7 +66,10 @@ class DrumMachine extends React.Component {
 
   handlePowerChange() {
     let power = !this.state.power;
-    this.setState({displayText: "", power: power});
+    let text = power ? "ON" : "OFF";
+    this.setState({displayText: text, power: power}, () => {
+      setTimeout(() => {this.setState({displayText: ""});}, 400);
+    });
   }
 
   render() {

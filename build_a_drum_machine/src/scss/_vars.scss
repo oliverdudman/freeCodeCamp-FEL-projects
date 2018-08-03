@@ -4,3 +4,12 @@ $pad-margin: $pad-size / 10;
 
 // controls
 $switch-width: $pad-size;
+
+
+// colors
+
+$background-color: #4d4d4d;
+$display-color: lighten($background-color, 5);
+$machine-color: darken($background-color, 15);
+$machine-pad-color: #ff9900;
+$machine-pad-color--active: #ff4b00;

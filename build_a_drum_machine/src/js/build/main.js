@@ -51,7 +51,9 @@ function (_React$Component) {
       }, _react.default.createElement("div", {
         id: "display",
         className: "controls__display"
-      }, this.props.displayText), _react.default.createElement("div", null, _react.default.createElement("input", {
+      }, this.props.displayText), _react.default.createElement("div", {
+        className: "controls__item"
+      }, _react.default.createElement("input", {
         type: "range",
         min: 0,
         max: 1,
@@ -131,6 +133,9 @@ function (_React$Component) {
     Object.keys(_this.props.sounds).forEach(function (key) {
       _this[key] = _react.default.createRef();
     });
+    _this.state = {
+      activePads: []
+    };
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.playAudio = _this.playAudio.bind(_assertThisInitialized(_assertThisInitialized(_this)));
@@ -165,32 +170,50 @@ function (_React$Component) {
   }, {
     key: "playAudio",
     value: function playAudio(audio, text) {
+      var _this2 = this;
+
       if (this.props.power) {
+        var activePads = this.state.activePads.concat(audio.id);
+        this.setState({
+          activePads: activePads
+        });
         audio.pause();
         audio.currentTime = 0;
         audio.volume = this.props.volume;
         audio.play();
+
+        audio.onended = function () {
+          var activePads = _this2.state.activePads.filter(function (e) {
+            return e !== audio.id;
+          });
+
+          _this2.setState({
+            activePads: activePads
+          });
+        };
+
         this.props.setDisplayText(text);
       }
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _react.default.createElement("div", {
         className: "drum-pad-container"
       }, Object.keys(this.props.sounds).map(function (key) {
+        var classes = _this3.state.activePads.includes(key) ? "drum-pad active" : "drum-pad";
         return _react.default.createElement("button", {
-          id: _this2.props.sounds[key].name,
-          className: "drum-pad",
-          onClick: _this2.handleClick,
+          id: _this3.props.sounds[key].name,
+          className: classes,
+          onClick: _this3.handleClick,
           key: key
         }, key, _react.default.createElement("audio", {
           id: key,
           className: "clip",
-          src: _this2.props.sounds[key].src,
-          ref: _this2[key]
+          src: _this3.props.sounds[key].src,
+          ref: _this3[key]
         }));
       }));
     }
@@ -224,7 +247,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function SwitchInput(props) {
   var classes = "controls__switch controls__switch__" + (props.active ? "on" : "off");
-  return _react.default.createElement("div", null, _react.default.createElement("button", {
+  return _react.default.createElement("div", {
+    className: "controls__item"
+  }, _react.default.createElement("button", {
     onClick: props.handleClick,
     className: classes
   }), _react.default.createElement("div", null, props.text));
@@ -232,7 +257,8 @@ function SwitchInput(props) {
 
 SwitchInput.propTypes = {
   active: _propTypes.default.bool.isRequired,
-  handleClick: _propTypes.default.func.isRequired
+  handleClick: _propTypes.default.func.isRequired,
+  text: _propTypes.default.string.isRequired
 };
 var _default = SwitchInput;
 exports.default = _default;
@@ -399,10 +425,19 @@ function (_React$Component) {
   }, {
     key: "handlePowerChange",
     value: function handlePowerChange() {
+      var _this2 = this;
+
       var power = !this.state.power;
+      var text = power ? "ON" : "OFF";
       this.setState({
-        displayText: "",
+        displayText: text,
         power: power
+      }, function () {
+        setTimeout(function () {
+          _this2.setState({
+            displayText: ""
+          });
+        }, 400);
       });
     }
   }, {
