@@ -1,6 +1,46 @@
 .controls {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   width: 200px;
   height: 200px;
+
   background-color: orange;
+
+  text-align: center;
+
+  &__switch {
+    position: relative;
+
+    display: block;
+    width: $switch-width;
+    height: $switch-width / 2.5;
+
+    background-color: grey;
+
+    &__off::after {
+      content: "";
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      display: block;
+      width: 50%;
+      height: 100%;
+
+      background-color: blue;
+    }
+
+    &__on::after {
+      content: "";
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      display: block;
+      width: 50%;
+      height: 100%;
+
+      background-color: blue;
+    }
+  }
 }

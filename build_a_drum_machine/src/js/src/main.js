@@ -50,7 +50,7 @@ class DrumMachine extends React.Component {
       let volume = parseFloat(e.target.value);
       let text = "Volume: " + Math.floor(volume*100);
       this.setState({volume: volume, displayText: text});
-    }    
+    }
   }
 
   handleBankChange() {
@@ -84,6 +84,8 @@ class DrumMachine extends React.Component {
           volume={this.state.volume}
           handleBankChange={this.handleBankChange}
           handlePowerChange={this.handlePowerChange}
+          power={this.state.power}
+          bank={this.state.bank}
         />
       </div>
     );

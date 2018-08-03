@@ -48,19 +48,24 @@ function (_React$Component) {
     value: function render() {
       return _react.default.createElement("div", {
         className: "controls"
-      }, _react.default.createElement(_Switch.default, {
-        handleClick: this.props.handlePowerChange
-      }), _react.default.createElement("div", {
-        id: "display"
-      }, this.props.displayText), _react.default.createElement("input", {
+      }, _react.default.createElement("div", {
+        id: "display",
+        className: "controls__display"
+      }, this.props.displayText), _react.default.createElement("div", null, _react.default.createElement("input", {
         type: "range",
         min: 0,
         max: 1,
         step: 0.01,
         value: this.props.volume,
         onChange: this.props.handleVolumeChange
+      }), _react.default.createElement("div", null, "Volume")), _react.default.createElement(_Switch.default, {
+        handleClick: this.props.handleBankChange,
+        active: Boolean(this.props.bank),
+        text: "Bank"
       }), _react.default.createElement(_Switch.default, {
-        handleClick: this.props.handleBankChange
+        handleClick: this.props.handlePowerChange,
+        active: this.props.power,
+        text: "Power"
       }));
     }
   }]);
@@ -73,7 +78,9 @@ Controls.propTypes = {
   handleVolumeChange: _propTypes.default.func.isRequired,
   volume: _propTypes.default.number.isRequired,
   handlePowerChange: _propTypes.default.func.isRequired,
-  handleBankChange: _propTypes.default.func.isRequired
+  handleBankChange: _propTypes.default.func.isRequired,
+  power: _propTypes.default.bool.isRequired,
+  bank: _propTypes.default.number.isRequired
 };
 var _default = Controls;
 exports.default = _default;
@@ -211,18 +218,26 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function SwitchInput(props) {
-  return _react.default.createElement("button", {
-    onClick: props.handleClick
-  }, "Sample text");
+  var classes = "controls__switch controls__switch__" + (props.active ? "on" : "off");
+  return _react.default.createElement("div", null, _react.default.createElement("button", {
+    onClick: props.handleClick,
+    className: classes
+  }), _react.default.createElement("div", null, props.text));
 }
 
+SwitchInput.propTypes = {
+  active: _propTypes.default.bool.isRequired,
+  handleClick: _propTypes.default.func.isRequired
+};
 var _default = SwitchInput;
 exports.default = _default;
 
-},{"react":32}],4:[function(require,module,exports){
+},{"prop-types":23,"react":32}],4:[function(require,module,exports){
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -405,7 +420,9 @@ function (_React$Component) {
         handleVolumeChange: this.handleVolumeChange,
         volume: this.state.volume,
         handleBankChange: this.handleBankChange,
-        handlePowerChange: this.handlePowerChange
+        handlePowerChange: this.handlePowerChange,
+        power: this.state.power,
+        bank: this.state.bank
       }));
     }
   }]);
