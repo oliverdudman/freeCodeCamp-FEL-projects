@@ -10,6 +10,8 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _Switch = _interopRequireDefault(require("./Switch"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -46,13 +48,19 @@ function (_React$Component) {
     value: function render() {
       return _react.default.createElement("div", {
         className: "controls"
-      }, _react.default.createElement("div", {
+      }, _react.default.createElement(_Switch.default, {
+        handleClick: this.props.handlePowerChange
+      }), _react.default.createElement("div", {
         id: "display"
-      }, this.props.soundText), _react.default.createElement("input", {
+      }, this.props.displayText), _react.default.createElement("input", {
         type: "range",
         min: 0,
         max: 1,
-        step: 0.1
+        step: 0.01,
+        value: this.props.volume,
+        onChange: this.props.handleVolumeChange
+      }), _react.default.createElement(_Switch.default, {
+        handleClick: this.props.handleBankChange
       }));
     }
   }]);
@@ -61,12 +69,16 @@ function (_React$Component) {
 }(_react.default.Component);
 
 Controls.propTypes = {
-  soundText: _propTypes.default.string
+  displayText: _propTypes.default.string.isRequired,
+  handleVolumeChange: _propTypes.default.func.isRequired,
+  volume: _propTypes.default.number.isRequired,
+  handlePowerChange: _propTypes.default.func.isRequired,
+  handleBankChange: _propTypes.default.func.isRequired
 };
 var _default = Controls;
 exports.default = _default;
 
-},{"prop-types":22,"react":31}],2:[function(require,module,exports){
+},{"./Switch":3,"prop-types":23,"react":32}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -90,13 +102,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 var DrumPad =
 /*#__PURE__*/
@@ -112,17 +124,46 @@ function (_React$Component) {
     Object.keys(_this.props.sounds).forEach(function (key) {
       _this[key] = _react.default.createRef();
     });
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.playAudio = _this.playAudio.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
   _createClass(DrumPad, [{
-    key: "componentDidUpdate",
-    value: function componentDidUpdate() {
-      if (this.props.currentSound) {
-        var audio = this[this.props.currentSound].current;
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      document.addEventListener("keydown", this.handleKeyPress);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      document.removeEventListener("keydown", this.handleKeyPress);
+    }
+  }, {
+    key: "handleKeyPress",
+    value: function handleKeyPress(e) {
+      var c = String.fromCharCode(e.keyCode);
+
+      if (this[c]) {
+        this.playAudio(this[c].current, this.props.sounds[c].name);
+      }
+    }
+  }, {
+    key: "handleClick",
+    value: function handleClick(e) {
+      var audio = e.target.lastChild;
+      this.playAudio(audio, e.target.id);
+    }
+  }, {
+    key: "playAudio",
+    value: function playAudio(audio, text) {
+      if (this.props.power) {
         audio.pause();
         audio.currentTime = 0;
+        audio.volume = this.props.volume;
         audio.play();
+        this.props.setDisplayText(text);
       }
     }
   }, {
@@ -136,7 +177,7 @@ function (_React$Component) {
         return _react.default.createElement("button", {
           id: _this2.props.sounds[key].name,
           className: "drum-pad",
-          onClick: _this2.props.handleClick,
+          onClick: _this2.handleClick,
           key: key
         }, key, _react.default.createElement("audio", {
           id: key,
@@ -152,14 +193,36 @@ function (_React$Component) {
 }(_react.default.Component);
 
 DrumPad.propTypes = {
-  currentSound: _propTypes.default.string,
-  handleClick: _propTypes.default.func.isRequired,
-  sounds: _propTypes.default.object.isRequired
+  setDisplayText: _propTypes.default.func.isRequired,
+  sounds: _propTypes.default.object.isRequired,
+  volume: _propTypes.default.number.isRequired,
+  power: _propTypes.default.bool.isRequired
 };
 var _default = DrumPad;
 exports.default = _default;
 
-},{"prop-types":22,"react":31}],3:[function(require,module,exports){
+},{"prop-types":23,"react":32}],3:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function SwitchInput(props) {
+  return _react.default.createElement("button", {
+    onClick: props.handleClick
+  }, "Sample text");
+}
+
+var _default = SwitchInput;
+exports.default = _default;
+
+},{"react":32}],4:[function(require,module,exports){
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -201,7 +264,7 @@ function (_React$Component) {
     _classCallCheck(this, DrumMachine);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(DrumMachine).call(this, props));
-    _this.SOUNDS = {
+    _this.SOUNDS = [{
       Q: {
         src: "https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3",
         name: "Heater-1"
@@ -238,49 +301,111 @@ function (_React$Component) {
         src: "https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3",
         name: "Cev_H2"
       }
-    };
+    }, {
+      Q: {
+        src: "https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3",
+        name: "Chord-1"
+      },
+      W: {
+        src: "https://s3.amazonaws.com/freecodecamp/drums/Chord_2.mp3",
+        name: "Chord-2"
+      },
+      E: {
+        src: "https://s3.amazonaws.com/freecodecamp/drums/Chord_3.mp3",
+        name: "Chord-3"
+      },
+      A: {
+        src: "https://s3.amazonaws.com/freecodecamp/drums/Give_us_a_light.mp3",
+        name: "Give-us-a-light"
+      },
+      S: {
+        src: "https://s3.amazonaws.com/freecodecamp/drums/Dry_Ohh.mp3",
+        name: "Dry-Ohh"
+      },
+      D: {
+        src: "https://s3.amazonaws.com/freecodecamp/drums/Bld_H1.mp3",
+        name: "Bld-H1"
+      },
+      Z: {
+        src: "https://s3.amazonaws.com/freecodecamp/drums/punchy_kick_1.mp3",
+        name: "Punchy-Kick"
+      },
+      X: {
+        src: "https://s3.amazonaws.com/freecodecamp/drums/side_stick_1.mp3",
+        name: "Side-Stick"
+      },
+      C: {
+        src: "https://s3.amazonaws.com/freecodecamp/drums/Brk_Snr.mp3",
+        name: "Brk-Snr"
+      }
+    }];
     _this.state = {
-      currentSound: null
+      volume: 0.4,
+      bank: 0,
+      power: true,
+      displayText: ""
     };
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleVolumeChange = _this.handleVolumeChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleBankChange = _this.handleBankChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleSetDisplayText = _this.handleSetDisplayText.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handlePowerChange = _this.handlePowerChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
   _createClass(DrumMachine, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      document.addEventListener("keydown", function (e) {
-        var c = String.fromCharCode(e.keyCode);
-
-        if (_this2.SOUNDS[c]) {
-          _this2.setState({
-            currentSound: c
-          });
-        }
+    key: "handleVolumeChange",
+    value: function handleVolumeChange(e) {
+      if (this.state.power) {
+        var volume = parseFloat(e.target.value);
+        var text = "Volume: " + Math.floor(volume * 100);
+        this.setState({
+          volume: volume,
+          displayText: text
+        });
+      }
+    }
+  }, {
+    key: "handleBankChange",
+    value: function handleBankChange() {
+      if (this.state.power) {
+        var bank = this.state.bank === 0 ? 1 : 0;
+        this.setState({
+          bank: bank
+        });
+      }
+    }
+  }, {
+    key: "handleSetDisplayText",
+    value: function handleSetDisplayText(text) {
+      this.setState({
+        displayText: text
       });
     }
   }, {
-    key: "handleClick",
-    value: function handleClick(e) {
-      var c = e.target.lastChild.id;
+    key: "handlePowerChange",
+    value: function handlePowerChange() {
+      var power = !this.state.power;
       this.setState({
-        currentSound: c
+        displayText: "",
+        power: power
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var soundText = this.state.currentSound ? this.SOUNDS[this.state.currentSound].name : null;
       return _react.default.createElement("div", {
         id: "drum-machine"
       }, _react.default.createElement(_DrumPad.default, {
-        sounds: this.SOUNDS,
-        handleClick: this.handleClick,
-        currentSound: this.state.currentSound
+        sounds: this.SOUNDS[this.state.bank],
+        volume: this.state.volume,
+        setDisplayText: this.handleSetDisplayText,
+        power: this.state.power
       }), _react.default.createElement(_Controls.default, {
-        soundText: soundText
+        displayText: this.state.displayText,
+        handleVolumeChange: this.handleVolumeChange,
+        volume: this.state.volume,
+        handleBankChange: this.handleBankChange,
+        handlePowerChange: this.handlePowerChange
       }));
     }
   }]);
@@ -290,7 +415,7 @@ function (_React$Component) {
 
 _reactDom.default.render(_react.default.createElement(DrumMachine, null), document.getElementById("root"));
 
-},{"./Controls":1,"./DrumPad":2,"react":31,"react-dom":27}],4:[function(require,module,exports){
+},{"./Controls":1,"./DrumPad":2,"react":32,"react-dom":28}],5:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -324,7 +449,7 @@ var ExecutionEnvironment = {
 };
 
 module.exports = ExecutionEnvironment;
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 
 /**
@@ -354,7 +479,7 @@ function camelize(string) {
 }
 
 module.exports = camelize;
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -392,7 +517,7 @@ function camelizeStyleName(string) {
 }
 
 module.exports = camelizeStyleName;
-},{"./camelize":5}],7:[function(require,module,exports){
+},{"./camelize":6}],8:[function(require,module,exports){
 'use strict';
 
 /**
@@ -430,7 +555,7 @@ function containsNode(outerNode, innerNode) {
 }
 
 module.exports = containsNode;
-},{"./isTextNode":15}],8:[function(require,module,exports){
+},{"./isTextNode":16}],9:[function(require,module,exports){
 "use strict";
 
 /**
@@ -467,7 +592,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -487,7 +612,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = emptyObject;
 }).call(this,require('_process'))
-},{"_process":18}],10:[function(require,module,exports){
+},{"_process":19}],11:[function(require,module,exports){
 'use strict';
 
 /**
@@ -524,7 +649,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 }
 
 module.exports = getActiveElement;
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 /**
@@ -555,7 +680,7 @@ function hyphenate(string) {
 }
 
 module.exports = hyphenate;
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -592,7 +717,7 @@ function hyphenateStyleName(string) {
 }
 
 module.exports = hyphenateStyleName;
-},{"./hyphenate":11}],13:[function(require,module,exports){
+},{"./hyphenate":12}],14:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -648,7 +773,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 }).call(this,require('_process'))
-},{"_process":18}],14:[function(require,module,exports){
+},{"_process":19}],15:[function(require,module,exports){
 'use strict';
 
 /**
@@ -671,7 +796,7 @@ function isNode(object) {
 }
 
 module.exports = isNode;
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 /**
@@ -694,7 +819,7 @@ function isTextNode(object) {
 }
 
 module.exports = isTextNode;
-},{"./isNode":14}],16:[function(require,module,exports){
+},{"./isNode":15}],17:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -760,7 +885,7 @@ function shallowEqual(objA, objB) {
 }
 
 module.exports = shallowEqual;
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
@@ -825,7 +950,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = warning;
 }).call(this,require('_process'))
-},{"./emptyFunction":8,"_process":18}],18:[function(require,module,exports){
+},{"./emptyFunction":9,"_process":19}],19:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -1011,7 +1136,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -1106,7 +1231,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 module.exports = checkPropTypes;
 
 }).call(this,require('_process'))
-},{"./lib/ReactPropTypesSecret":23,"_process":18}],20:[function(require,module,exports){
+},{"./lib/ReactPropTypesSecret":24,"_process":19}],21:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -1167,7 +1292,7 @@ module.exports = function() {
   return ReactPropTypes;
 };
 
-},{"./lib/ReactPropTypesSecret":23}],21:[function(require,module,exports){
+},{"./lib/ReactPropTypesSecret":24}],22:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -1726,7 +1851,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 };
 
 }).call(this,require('_process'))
-},{"./checkPropTypes":19,"./lib/ReactPropTypesSecret":23,"_process":18,"object-assign":24}],22:[function(require,module,exports){
+},{"./checkPropTypes":20,"./lib/ReactPropTypesSecret":24,"_process":19,"object-assign":25}],23:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -1758,7 +1883,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./factoryWithThrowingShims":20,"./factoryWithTypeCheckers":21,"_process":18}],23:[function(require,module,exports){
+},{"./factoryWithThrowingShims":21,"./factoryWithTypeCheckers":22,"_process":19}],24:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -1772,7 +1897,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus
@@ -1864,7 +1989,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 (function (process){
 /** @license React v16.4.1
  * react-dom.development.js
@@ -19298,7 +19423,7 @@ module.exports = reactDom;
 }
 
 }).call(this,require('_process'))
-},{"_process":18,"fbjs/lib/ExecutionEnvironment":4,"fbjs/lib/camelizeStyleName":6,"fbjs/lib/containsNode":7,"fbjs/lib/emptyFunction":8,"fbjs/lib/emptyObject":9,"fbjs/lib/getActiveElement":10,"fbjs/lib/hyphenateStyleName":12,"fbjs/lib/invariant":13,"fbjs/lib/shallowEqual":16,"fbjs/lib/warning":17,"object-assign":28,"prop-types/checkPropTypes":19,"react":31}],26:[function(require,module,exports){
+},{"_process":19,"fbjs/lib/ExecutionEnvironment":5,"fbjs/lib/camelizeStyleName":7,"fbjs/lib/containsNode":8,"fbjs/lib/emptyFunction":9,"fbjs/lib/emptyObject":10,"fbjs/lib/getActiveElement":11,"fbjs/lib/hyphenateStyleName":13,"fbjs/lib/invariant":14,"fbjs/lib/shallowEqual":17,"fbjs/lib/warning":18,"object-assign":29,"prop-types/checkPropTypes":20,"react":32}],27:[function(require,module,exports){
 /** @license React v16.4.1
  * react-dom.production.min.js
  *
@@ -19540,7 +19665,7 @@ var vi={createPortal:ui,findDOMNode:function(a){return null==a?null:1===a.nodeTy
 arguments)},unstable_batchedUpdates:bi,unstable_deferredUpdates:Hh,unstable_interactiveUpdates:ei,flushSync:di,unstable_flushControlled:fi,__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{EventPluginHub:Ka,EventPluginRegistry:va,EventPropagators:$a,ReactControlledComponent:Rb,ReactDOMComponentTree:Qa,ReactDOMEventListener:Nd},unstable_createRoot:function(a,b){return new qi(a,!0,null!=b&&!0===b.hydrate)}};ki({findFiberByHostInstance:Na,bundleType:0,version:"16.4.1",rendererPackageName:"react-dom"});
 var Ai={default:vi},Bi=Ai&&vi||Ai;module.exports=Bi.default?Bi.default:Bi;
 
-},{"fbjs/lib/ExecutionEnvironment":4,"fbjs/lib/containsNode":7,"fbjs/lib/emptyFunction":8,"fbjs/lib/emptyObject":9,"fbjs/lib/getActiveElement":10,"fbjs/lib/invariant":13,"fbjs/lib/shallowEqual":16,"object-assign":28,"react":31}],27:[function(require,module,exports){
+},{"fbjs/lib/ExecutionEnvironment":5,"fbjs/lib/containsNode":8,"fbjs/lib/emptyFunction":9,"fbjs/lib/emptyObject":10,"fbjs/lib/getActiveElement":11,"fbjs/lib/invariant":14,"fbjs/lib/shallowEqual":17,"object-assign":29,"react":32}],28:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -19582,9 +19707,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/react-dom.development.js":25,"./cjs/react-dom.production.min.js":26,"_process":18}],28:[function(require,module,exports){
-arguments[4][24][0].apply(exports,arguments)
-},{"dup":24}],29:[function(require,module,exports){
+},{"./cjs/react-dom.development.js":26,"./cjs/react-dom.production.min.js":27,"_process":19}],29:[function(require,module,exports){
+arguments[4][25][0].apply(exports,arguments)
+},{"dup":25}],30:[function(require,module,exports){
 (function (process){
 /** @license React v16.4.1
  * react.development.js
@@ -21074,7 +21199,7 @@ module.exports = react;
 }
 
 }).call(this,require('_process'))
-},{"_process":18,"fbjs/lib/emptyFunction":8,"fbjs/lib/emptyObject":9,"fbjs/lib/invariant":13,"fbjs/lib/warning":17,"object-assign":32,"prop-types/checkPropTypes":19}],30:[function(require,module,exports){
+},{"_process":19,"fbjs/lib/emptyFunction":9,"fbjs/lib/emptyObject":10,"fbjs/lib/invariant":14,"fbjs/lib/warning":18,"object-assign":33,"prop-types/checkPropTypes":20}],31:[function(require,module,exports){
 /** @license React v16.4.1
  * react.production.min.js
  *
@@ -21098,7 +21223,7 @@ _calculateChangedBits:b,_defaultValue:a,_currentValue:a,_currentValue2:a,_change
 b.key&&(g=""+b.key);var l=void 0;a.type&&a.type.defaultProps&&(l=a.type.defaultProps);for(c in b)K.call(b,c)&&!L.hasOwnProperty(c)&&(d[c]=void 0===b[c]&&void 0!==l?l[c]:b[c])}c=arguments.length-2;if(1===c)d.children=e;else if(1<c){l=Array(c);for(var m=0;m<c;m++)l[m]=arguments[m+2];d.children=l}return{$$typeof:t,type:a.type,key:g,ref:h,props:d,_owner:f}},createFactory:function(a){var b=M.bind(null,a);b.type=a;return b},isValidElement:N,version:"16.4.1",__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{ReactCurrentOwner:J,
 assign:k}},Y={default:X},Z=Y&&X||Y;module.exports=Z.default?Z.default:Z;
 
-},{"fbjs/lib/emptyFunction":8,"fbjs/lib/emptyObject":9,"fbjs/lib/invariant":13,"object-assign":32}],31:[function(require,module,exports){
+},{"fbjs/lib/emptyFunction":9,"fbjs/lib/emptyObject":10,"fbjs/lib/invariant":14,"object-assign":33}],32:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -21109,6 +21234,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/react.development.js":29,"./cjs/react.production.min.js":30,"_process":18}],32:[function(require,module,exports){
-arguments[4][24][0].apply(exports,arguments)
-},{"dup":24}]},{},[3]);
+},{"./cjs/react.development.js":30,"./cjs/react.production.min.js":31,"_process":19}],33:[function(require,module,exports){
+arguments[4][25][0].apply(exports,arguments)
+},{"dup":25}]},{},[4]);
