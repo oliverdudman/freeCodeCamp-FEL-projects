@@ -6,6 +6,9 @@
 }
 
 .drum-pad {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: $pad-size;
   height: $pad-size;
   margin: $pad-margin;
