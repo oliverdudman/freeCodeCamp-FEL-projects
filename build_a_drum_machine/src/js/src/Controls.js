@@ -6,7 +6,6 @@ class Controls extends React.Component {
   render() {
     return (
       <div className="controls">
-        <div id="display" className="controls__display">{this.props.displayText}</div>
         <div className="controls__item">
           <input className="controls__slider" type="range" min={0} max={1} step={0.01} value={this.props.volume} onChange={this.props.handleVolumeChange}></input>
           <div>Volume</div>
@@ -19,7 +18,6 @@ class Controls extends React.Component {
 }
 
 Controls.propTypes = {
-  displayText: PropTypes.string.isRequired,
   handleVolumeChange: PropTypes.func.isRequired,
   volume: PropTypes.number.isRequired,
   handlePowerChange: PropTypes.func.isRequired,

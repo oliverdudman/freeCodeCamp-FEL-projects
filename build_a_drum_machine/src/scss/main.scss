@@ -1,7 +1,8 @@
 @import "vars";
 
 @import "drum-pad",
-        "controls";
+        "controls",
+        "display";
 
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
@@ -27,9 +28,16 @@ html, body, #root {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   padding: 2rem;
   border-radius: 15px;
 
   background-color: $machine-color;
   box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.3);
+}
+
+.drum-machine__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -75,21 +75,24 @@ class DrumMachine extends React.Component {
   render() {
     return (
       <div id="drum-machine">
-        <DrumPad
-          sounds={this.SOUNDS[this.state.bank]}
-          volume={this.state.volume}
-          setDisplayText={this.handleSetDisplayText}
-          power={this.state.power}
-        />
-        <Controls
-          displayText={this.state.displayText}
-          handleVolumeChange={this.handleVolumeChange}
-          volume={this.state.volume}
-          handleBankChange={this.handleBankChange}
-          handlePowerChange={this.handlePowerChange}
-          power={this.state.power}
-          bank={this.state.bank}
-        />
+        <div id="display" className="display">{this.state.displayText}</div>
+        <div className="drum-machine__container">
+          <DrumPad
+            sounds={this.SOUNDS[this.state.bank]}
+            volume={this.state.volume}
+            setDisplayText={this.handleSetDisplayText}
+            power={this.state.power}
+          />
+          <Controls
+            handleVolumeChange={this.handleVolumeChange}
+            volume={this.state.volume}
+            handleBankChange={this.handleBankChange}
+            handlePowerChange={this.handlePowerChange}
+            power={this.state.power}
+            bank={this.state.bank}
+          />
+        </div>
+
       </div>
     );
   }

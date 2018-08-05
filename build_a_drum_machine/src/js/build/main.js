@@ -49,9 +49,6 @@ function (_React$Component) {
       return _react.default.createElement("div", {
         className: "controls"
       }, _react.default.createElement("div", {
-        id: "display",
-        className: "controls__display"
-      }, this.props.displayText), _react.default.createElement("div", {
         className: "controls__item"
       }, _react.default.createElement("input", {
         className: "controls__slider",
@@ -77,7 +74,6 @@ function (_React$Component) {
 }(_react.default.Component);
 
 Controls.propTypes = {
-  displayText: _propTypes.default.string.isRequired,
   handleVolumeChange: _propTypes.default.func.isRequired,
   volume: _propTypes.default.number.isRequired,
   handlePowerChange: _propTypes.default.func.isRequired,
@@ -446,20 +442,24 @@ function (_React$Component) {
     value: function render() {
       return _react.default.createElement("div", {
         id: "drum-machine"
+      }, _react.default.createElement("div", {
+        id: "display",
+        className: "display"
+      }, this.state.displayText), _react.default.createElement("div", {
+        className: "drum-machine__container"
       }, _react.default.createElement(_DrumPad.default, {
         sounds: this.SOUNDS[this.state.bank],
         volume: this.state.volume,
         setDisplayText: this.handleSetDisplayText,
         power: this.state.power
       }), _react.default.createElement(_Controls.default, {
-        displayText: this.state.displayText,
         handleVolumeChange: this.handleVolumeChange,
         volume: this.state.volume,
         handleBankChange: this.handleBankChange,
         handlePowerChange: this.handlePowerChange,
         power: this.state.power,
         bank: this.state.bank
-      }));
+      })));
     }
   }]);
 

@@ -3,33 +3,19 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 200px;
+  width: 150px;
 
   background-color: $machine-color;
   color: #a6a6a6;
 
   text-align: center;
 
-  &__display {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80%;
-    height: 2rem;
-    margin-bottom: 1rem;
-    border-radius: 5px;
-    border: 2px solid darken($display-color, 25);
-
-    background-color: $display-color;
-    color: #e65c00;
-  }
-
   &__item {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin: 0.2rem;
+    margin: 0.25rem;
 
     font-size: 1rem;
   }
