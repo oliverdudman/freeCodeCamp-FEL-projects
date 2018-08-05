@@ -18,6 +18,8 @@
 
   font-size: 1rem;
 
+  cursor: pointer;
+
   &.active {
     background-color: $machine-pad-color--active;
     border: 2px solid lighten($machine-pad-color--active, 15);

@@ -7,6 +7,7 @@ class DrumMachine extends React.Component {
   constructor(props) {
     super(props);
 
+    this.displayInterval = null;
     this.SOUNDS = [
       {
         Q: {src: "https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3", name: "Heater-1"},
@@ -39,24 +40,36 @@ class DrumMachine extends React.Component {
       displayText: ""
     };
 
+    this.clearDisplayText = this.clearDisplayText.bind(this);
     this.handleVolumeChange = this.handleVolumeChange.bind(this);
     this.handleBankChange = this.handleBankChange.bind(this);
     this.handleSetDisplayText = this.handleSetDisplayText.bind(this);
     this.handlePowerChange = this.handlePowerChange.bind(this);
   }
 
+  clearDisplayText() {
+    clearInterval(this.displayInterval);
+    this.displayInterval = setTimeout(() => {
+      this.setState({displayText: ""});
+    }, 800);
+
+  }
+
   handleVolumeChange(e) {
     if (this.state.power) {
       let volume = parseFloat(e.target.value);
       let text = "Volume: " + Math.floor(volume*100);
-      this.setState({volume: volume, displayText: text});
+      clearInterval(this.displayInterval);
+      this.setState({volume: volume, displayText: text}, this.clearDisplayText);
     }
   }
 
   handleBankChange() {
     if (this.state.power) {
       let bank = this.state.bank === 0 ? 1 : 0;
-      this.setState({bank: bank});
+      let text = "Bank: " + (bank + 1);
+      clearInterval(this.displayInterval);
+      this.setState({bank: bank, displayText: text}, this.clearDisplayText);
     }
   }
 
@@ -67,9 +80,8 @@ class DrumMachine extends React.Component {
   handlePowerChange() {
     let power = !this.state.power;
     let text = power ? "ON" : "OFF";
-    this.setState({displayText: text, power: power}, () => {
-      setTimeout(() => {this.setState({displayText: ""});}, 400);
-    });
+    clearInterval(this.displayInterval);
+    this.setState({displayText: text, power: power}, this.clearDisplayText);
   }
 
   render() {

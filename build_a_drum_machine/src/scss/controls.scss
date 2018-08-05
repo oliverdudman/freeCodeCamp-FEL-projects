@@ -25,7 +25,10 @@
     height: 4px;
     border: 1px solid $display-color;
     border-radius: 3px;
+
     background-color: black;
+
+    cursor: pointer;
 
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
@@ -33,7 +36,10 @@
       width: $switch-width/3;
       height: $switch-width/3.5;
       border-radius: 3px;
+
       background-color: $controls-color;
+
+      cursor: pointer;
     }
 
     &::-moz-range-thumb{
@@ -41,7 +47,10 @@
       height: $switch-width/3.5;
       border: none;
       border-radius: 3px;
+
       background-color: $controls-color;
+
+      cursor: pointer;
     }
   }
 
@@ -55,6 +64,8 @@
     border-radius: 3px;
 
     background-color: black;
+
+    cursor: pointer;
 
     &__off::after {
       @extend %switch-toggler;

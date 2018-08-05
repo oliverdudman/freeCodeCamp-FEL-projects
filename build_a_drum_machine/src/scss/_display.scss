@@ -7,6 +7,7 @@
   margin-bottom: 1rem;
   border-radius: 5px;
   border: 2px solid darken($display-color, 25);
+  z-index: 0;// fix display bug google chrome (force 3d - GPU)
 
   background-color: $display-color;
   color: #e65c00;

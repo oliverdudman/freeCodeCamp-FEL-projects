@@ -302,6 +302,7 @@ function (_React$Component) {
     _classCallCheck(this, DrumMachine);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(DrumMachine).call(this, props));
+    _this.displayInterval = null;
     _this.SOUNDS = [{
       Q: {
         src: "https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3",
@@ -383,6 +384,7 @@ function (_React$Component) {
       power: true,
       displayText: ""
     };
+    _this.clearDisplayText = _this.clearDisplayText.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleVolumeChange = _this.handleVolumeChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleBankChange = _this.handleBankChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleSetDisplayText = _this.handleSetDisplayText.bind(_assertThisInitialized(_assertThisInitialized(_this)));
@@ -391,15 +393,28 @@ function (_React$Component) {
   }
 
   _createClass(DrumMachine, [{
+    key: "clearDisplayText",
+    value: function clearDisplayText() {
+      var _this2 = this;
+
+      clearInterval(this.displayInterval);
+      this.displayInterval = setTimeout(function () {
+        _this2.setState({
+          displayText: ""
+        });
+      }, 800);
+    }
+  }, {
     key: "handleVolumeChange",
     value: function handleVolumeChange(e) {
       if (this.state.power) {
         var volume = parseFloat(e.target.value);
         var text = "Volume: " + Math.floor(volume * 100);
+        clearInterval(this.displayInterval);
         this.setState({
           volume: volume,
           displayText: text
-        });
+        }, this.clearDisplayText);
       }
     }
   }, {
@@ -407,9 +422,12 @@ function (_React$Component) {
     value: function handleBankChange() {
       if (this.state.power) {
         var bank = this.state.bank === 0 ? 1 : 0;
+        var text = "Bank: " + (bank + 1);
+        clearInterval(this.displayInterval);
         this.setState({
-          bank: bank
-        });
+          bank: bank,
+          displayText: text
+        }, this.clearDisplayText);
       }
     }
   }, {
@@ -422,20 +440,13 @@ function (_React$Component) {
   }, {
     key: "handlePowerChange",
     value: function handlePowerChange() {
-      var _this2 = this;
-
       var power = !this.state.power;
       var text = power ? "ON" : "OFF";
+      clearInterval(this.displayInterval);
       this.setState({
         displayText: text,
         power: power
-      }, function () {
-        setTimeout(function () {
-          _this2.setState({
-            displayText: ""
-          });
-        }, 400);
-      });
+      }, this.clearDisplayText);
     }
   }, {
     key: "render",
