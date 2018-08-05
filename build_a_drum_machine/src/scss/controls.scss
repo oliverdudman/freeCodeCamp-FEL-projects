@@ -40,6 +40,8 @@
     display: block;
     width: $switch-width;
     height: $switch-width / 2.5;
+    border: 2px solid $display-color;
+    border-radius: 3px;
 
     background-color: black;
 
@@ -62,6 +64,9 @@
   display: block;
   width: 50%;
   height: 100%;
+  border: 2px solid black;
+  border-radius: 5px;
+  box-sizing: border-box;
 
-  background-color: blue;
+  background-color: #e60000;
 }
