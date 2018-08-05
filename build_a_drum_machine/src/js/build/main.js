@@ -54,6 +54,7 @@ function (_React$Component) {
       }, this.props.displayText), _react.default.createElement("div", {
         className: "controls__item"
       }, _react.default.createElement("input", {
+        className: "controls__slider",
         type: "range",
         min: 0,
         max: 1,

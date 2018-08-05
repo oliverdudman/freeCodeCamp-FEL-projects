@@ -34,6 +34,31 @@
     font-size: 1rem;
   }
 
+  &__slider {
+    -webkit-appearance: none;
+    height: 4px;
+    border: 1px solid $display-color;
+    border-radius: 3px;
+    background-color: black;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: $switch-width/3;
+      height: $switch-width/3.5;
+      border-radius: 3px;
+      background-color: $controls-color;
+    }
+
+    &::-moz-range-thumb{
+      width: $switch-width/3;
+      height: $switch-width/3.5;
+      border: none;
+      border-radius: 3px;
+      background-color: $controls-color;
+    }
+  }
+
   &__switch {
     position: relative;
 
@@ -68,5 +93,5 @@
   border-radius: 5px;
   box-sizing: border-box;
 
-  background-color: #e60000;
+  background-color: $controls-color;
 }
