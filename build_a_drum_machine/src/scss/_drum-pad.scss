@@ -23,6 +23,11 @@
 
   cursor: pointer;
 
+  @media screen and (max-width: 440px) {
+    width: $pad-size * 0.8;
+    height: $pad-size * 0.8;
+  }
+
   &.active {
     background-color: $machine-pad-color--active;
     border: 2px solid lighten($machine-pad-color--active, 15);
