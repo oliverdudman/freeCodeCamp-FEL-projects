@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 class Session extends React.Component {
   constructor(props) {
@@ -10,10 +11,14 @@ class Session extends React.Component {
     return (
       <div>
         <h2 id="timer-label">Session</h2>
-        <p id="time-left">{time}</p>
+        <div id="time-left">{time}</div>
       </div>
     );
   }
 }
+
+Session.propTypes = {
+  time: PropTypes.number.isRequired,
+};
 
 export default Session;
