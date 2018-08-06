@@ -7,10 +7,10 @@ $switch-width: $pad-size;
 
 
 // colors
-
-$background-color: #4d4d4d;
-$display-color: lighten($background-color, 5);
-$machine-color: darken($background-color, 15);
+$base-color: #4d4d4d;
+$background-color: lighten($base-color, 10);
+$display-color: lighten($base-color, 5);
+$machine-color: darken($base-color, 15);
 $machine-pad-color: #ff9900;
 $machine-pad-color--active: #ff4b00;
 $controls-color: #e60000;
