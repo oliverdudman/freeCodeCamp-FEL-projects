@@ -44,7 +44,7 @@ function (_React$Component) {
   _createClass(Session, [{
     key: "render",
     value: function render() {
-      var time = "".concat(Math.floor(this.props.time / 60), ":").concat((this.props.time % 60).toString().padStart(2, "0"));
+      var time = "".concat(Math.floor(this.props.time / 60).toString().padStart(2, "0"), ":") + "".concat((this.props.time % 60).toString().padStart(2, "0"));
       var text = this.props.onBreak ? "Break" : "Session";
       return _react.default.createElement("div", null, _react.default.createElement("h2", {
         id: "timer-label"

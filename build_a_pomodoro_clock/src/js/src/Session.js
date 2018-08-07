@@ -7,7 +7,8 @@ class Session extends React.Component {
   }
 
   render() {
-    let time = `${Math.floor(this.props.time/60)}:${(this.props.time % 60).toString().padStart(2, "0")}`;
+    let time = `${Math.floor(this.props.time/60).toString().padStart(2, "0")}:` +
+               `${(this.props.time % 60).toString().padStart(2, "0")}`;
     let text = this.props.onBreak ? "Break" : "Session";
     return (
       <div>
