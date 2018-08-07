@@ -45,9 +45,10 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       var time = "".concat(Math.floor(this.props.time / 60), ":").concat((this.props.time % 60).toString().padStart(2, "0"));
+      var text = this.props.onBreak ? "Break" : "Session";
       return _react.default.createElement("div", null, _react.default.createElement("h2", {
         id: "timer-label"
-      }, "Session"), _react.default.createElement("p", {
+      }, text), _react.default.createElement("div", {
         id: "time-left"
       }, time));
     }
@@ -57,7 +58,8 @@ function (_React$Component) {
 }(_react.default.Component);
 
 Session.propTypes = {
-  time: _propTypes.default.number.isRequired
+  time: _propTypes.default.number.isRequired,
+  onBreak: _propTypes.default.bool.isRequired
 };
 var _default = Session;
 exports.default = _default;
@@ -110,7 +112,8 @@ function (_React$Component) {
       breakLength: _this.DEFAULTS.breakLength,
       sessionLength: _this.DEFAULTS.sessionLength,
       sessionRemaining: null,
-      paused: true
+      paused: true,
+      onBreak: false
     };
     _this.handleDecrementBreak = _this.handleDecrementBreak.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleIncrementBreak = _this.handleIncrementBreak.bind(_assertThisInitialized(_assertThisInitialized(_this)));
@@ -124,15 +127,17 @@ function (_React$Component) {
   _createClass(App, [{
     key: "handleIncrementBreak",
     value: function handleIncrementBreak() {
-      var t = this.state.breakLength + 1;
-      this.setState({
-        breakLength: t
-      });
+      if (this.state.breakLength < 60) {
+        var t = this.state.breakLength + 1;
+        this.setState({
+          breakLength: t
+        });
+      }
     }
   }, {
     key: "handleDecrementBreak",
     value: function handleDecrementBreak() {
-      if (this.state.breakLength > 0) {
+      if (this.state.breakLength > 1) {
         var t = this.state.breakLength - 1;
         this.setState({
           breakLength: t
@@ -142,15 +147,17 @@ function (_React$Component) {
   }, {
     key: "handleIncrementSession",
     value: function handleIncrementSession() {
-      var length = this.state.sessionLength + 1;
-      this.setState({
-        sessionLength: length
-      });
+      if (this.state.sessionLength < 60) {
+        var length = this.state.sessionLength + 1;
+        this.setState({
+          sessionLength: length
+        });
+      }
     }
   }, {
     key: "handleDecrementSession",
     value: function handleDecrementSession() {
-      if (this.state.sessionLength > 0) {
+      if (this.state.sessionLength > 1) {
         var t = this.state.sessionLength - 1;
         this.setState({
           sessionLength: t
@@ -179,6 +186,22 @@ function (_React$Component) {
         this.timer = setInterval(function () {
           var t = _this2.state.sessionRemaining - 1;
 
+          if (t < 0) {
+            if (!_this2.state.onBreak) {
+              _this2.setState({
+                onBreak: true
+              });
+
+              t = _this2.state.breakLength * 60;
+            } else {
+              _this2.setState({
+                onBreak: false
+              });
+
+              t = _this2.state.sessionLength * 60;
+            }
+          }
+
           _this2.setState({
             sessionRemaining: t
           });
@@ -198,13 +221,15 @@ function (_React$Component) {
         breakLength: this.DEFAULTS.breakLength,
         sessionLength: this.DEFAULTS.sessionLength,
         sessionRemaining: null,
-        paused: true
+        paused: true,
+        onBreak: false
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var timeRemaining = this.state.sessionRemaining || this.state.sessionLength * 60;
+      var sR = this.state.sessionRemaining;
+      var clockTime = Number.isInteger(sR) ? sR : this.state.sessionLength * 60;
       return _react.default.createElement("div", null, _react.default.createElement("h2", {
         id: "break-label"
       }, "Break Length"), _react.default.createElement("p", {
@@ -226,7 +251,8 @@ function (_React$Component) {
         id: "session-increment",
         onClick: this.handleIncrementSession
       }, "Plus"), _react.default.createElement(_Session.default, {
-        time: timeRemaining
+        time: clockTime,
+        onBreak: this.state.onBreak
       }), _react.default.createElement("button", {
         id: "start_stop",
         onClick: this.handleToggleTimer

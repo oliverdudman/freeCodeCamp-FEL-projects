@@ -15,7 +15,8 @@ class App extends React.Component {
       breakLength: this.DEFAULTS.breakLength,
       sessionLength: this.DEFAULTS.sessionLength,
       sessionRemaining: null,
-      paused: true
+      paused: true,
+      onBreak: false,
     };
 
     this.handleDecrementBreak = this.handleDecrementBreak.bind(this);
@@ -69,6 +70,15 @@ class App extends React.Component {
 
       this.timer = setInterval(() => {
         let t = this.state.sessionRemaining - 1;
+        if (t < 0) {
+          if (!this.state.onBreak) {
+            this.setState({onBreak: true});
+            t = this.state.breakLength * 60;
+          } else {
+            this.setState({onBreak: false});
+            t = this.state.sessionLength * 60;
+          }
+        }
         this.setState({sessionRemaining: t});
       }, 1000);
     } else {
@@ -83,12 +93,14 @@ class App extends React.Component {
       breakLength: this.DEFAULTS.breakLength,
       sessionLength: this.DEFAULTS.sessionLength,
       sessionRemaining: null,
-      paused: true
+      paused: true,
+      onBreak: false
     });
   }
 
   render() {
-    let timeRemaining = this.state.sessionRemaining || this.state.sessionLength * 60;
+    let sR = this.state.sessionRemaining;
+    let clockTime = Number.isInteger(sR) ? sR : this.state.sessionLength * 60;
     return (
       <div>
         <h2 id="break-label">Break Length</h2>
@@ -99,7 +111,7 @@ class App extends React.Component {
         <p id="session-length">{this.state.sessionLength}</p>
         <button id="session-decrement" onClick={this.handleDecrementSession}>Minus</button>
         <button id="session-increment" onClick={this.handleIncrementSession}>Plus</button>
-        <Session time={timeRemaining}/>
+        <Session time={clockTime} onBreak={this.state.onBreak}/>
         <button id="start_stop" onClick={this.handleToggleTimer}>Start/Stop</button>
         <button id="reset" onClick={this.handleResetTimer}>Reset</button>
       </div>
