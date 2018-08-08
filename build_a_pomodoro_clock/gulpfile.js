@@ -15,6 +15,7 @@ const clean = require("gulp-clean");
 const runSequence = require("run-sequence");
 const htmlmin = require("gulp-htmlmin");
 const exorcist = require("exorcist");
+const replace = require("gulp-replace");
 
 const onError = function(err) {
   notify.onError({
@@ -63,6 +64,11 @@ gulp.task("default", ["sass", "browserify", "eslint"], function() {
 
 // build tools
 
+gulp.task("build_audio", function() {
+  return gulp.src("src/audio/*")
+  .pipe(gulp.dest("dist/audio"));
+});
+
 gulp.task("build_html", function() {
   return gulp.src("src/index.html")
   .pipe(htmlreplace({
@@ -90,6 +96,7 @@ gulp.task("build_js", function() {
   .bundle()
   .pipe(exorcist("dist/js/main.min.map.js"))
   .pipe(source("main.min.js"))
+  .pipe(replace("../audio", "./audio"))
   .pipe(gulp.dest("dist/js"));
 });
 
@@ -99,5 +106,5 @@ gulp.task("clean", function() {
 });
 
 gulp.task("build", function(callback) {
-  runSequence("clean", ["build_html", "build_sass", "build_js"], callback);
+  runSequence("clean", ["build_html", "build_sass", "build_js", "build_audio"], callback);
 });
