@@ -25,6 +25,8 @@ class App extends React.Component {
     this.handleDecrementSession = this.handleDecrementSession.bind(this);
     this.handleToggleTimer = this.handleToggleTimer.bind(this);
     this.handleResetTimer = this.handleResetTimer.bind(this);
+
+    this.beepRef = React.createRef();
   }
 
   handleIncrementBreak() {
@@ -71,9 +73,12 @@ class App extends React.Component {
       this.timer = setInterval(() => {
         let t = this.state.sessionRemaining - 1;
         if (t < 0) {
+          let audio = this.beepRef.current;
+          audio.play();
           if (!this.state.onBreak) {
             this.setState({onBreak: true});
             t = this.state.breakLength * 60;
+
           } else {
             this.setState({onBreak: false});
             t = this.state.sessionLength * 60;
@@ -89,6 +94,9 @@ class App extends React.Component {
   handleResetTimer() {
     clearInterval(this.timer);
     this.timer = null;
+    let audio = this.beepRef.current;
+    audio.pause();
+    audio.currentTime = 0;
     this.setState({
       breakLength: this.DEFAULTS.breakLength,
       sessionLength: this.DEFAULTS.sessionLength,
@@ -114,6 +122,7 @@ class App extends React.Component {
         <Session time={clockTime} onBreak={this.state.onBreak}/>
         <button id="start_stop" onClick={this.handleToggleTimer}>Start/Stop</button>
         <button id="reset" onClick={this.handleResetTimer}>Reset</button>
+        <audio id="beep" ref={this.beepRef} src="../audio/beep.mp3"></audio>
       </div>
     );
   }

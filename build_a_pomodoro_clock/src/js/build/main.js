@@ -121,6 +121,7 @@ function (_React$Component) {
     _this.handleDecrementSession = _this.handleDecrementSession.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleToggleTimer = _this.handleToggleTimer.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleResetTimer = _this.handleResetTimer.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.beepRef = _react.default.createRef();
     return _this;
   }
 
@@ -187,6 +188,9 @@ function (_React$Component) {
           var t = _this2.state.sessionRemaining - 1;
 
           if (t < 0) {
+            var audio = _this2.beepRef.current;
+            audio.play();
+
             if (!_this2.state.onBreak) {
               _this2.setState({
                 onBreak: true
@@ -217,6 +221,9 @@ function (_React$Component) {
     value: function handleResetTimer() {
       clearInterval(this.timer);
       this.timer = null;
+      var audio = this.beepRef.current;
+      audio.pause();
+      audio.currentTime = 0;
       this.setState({
         breakLength: this.DEFAULTS.breakLength,
         sessionLength: this.DEFAULTS.sessionLength,
@@ -259,7 +266,11 @@ function (_React$Component) {
       }, "Start/Stop"), _react.default.createElement("button", {
         id: "reset",
         onClick: this.handleResetTimer
-      }, "Reset"));
+      }, "Reset"), _react.default.createElement("audio", {
+        id: "beep",
+        ref: this.beepRef,
+        src: "../audio/beep.mp3"
+      }));
     }
   }]);
 
