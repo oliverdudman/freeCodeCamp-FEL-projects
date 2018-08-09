@@ -52,15 +52,15 @@ gulp.task("browserify", function() {
   .pipe(reload({stream: true}));
 });
 
-gulp.task("default", ["sass", "browserify", "eslint"], function() {
+gulp.task("default", gulp.series("sass", "browserify", "eslint", function startServer() {
   browserSync({
     server: "src",
   });
 
-  gulp.watch(["src/scss/*.scss"], ["sass"]);
+  gulp.watch(["src/scss/*.scss"], gulp.series("sass"));
   gulp.watch(["src/index.html"], reload);
-  gulp.watch(["src/js/src/*.js"], ["browserify", "eslint"]);
-});
+  gulp.watch(["src/js/src/*.js"], gulp.parallel("browserify", "eslint"));
+}));
 
 // build tools
 
