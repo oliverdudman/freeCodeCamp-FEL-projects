@@ -12,7 +12,6 @@ const rename = require("gulp-rename");
 const envify = require("envify/custom");
 const htmlreplace = require("gulp-html-replace");
 const clean = require("gulp-clean");
-const runSequence = require("run-sequence");
 const htmlmin = require("gulp-htmlmin");
 const exorcist = require("exorcist");
 const replace = require("gulp-replace");
@@ -101,10 +100,9 @@ gulp.task("build_js", function() {
 });
 
 gulp.task("clean", function() {
-  return gulp.src("dist")
+  return gulp.src("dist", {allowEmpty: true})
   .pipe(clean());
 });
 
-gulp.task("build", function(callback) {
-  runSequence("clean", ["build_html", "build_sass", "build_js", "build_audio"], callback);
-});
+gulp.task("build", gulp.series("clean",
+gulp.parallel("build_html", "build_sass", "build_js", "build_audio")));
