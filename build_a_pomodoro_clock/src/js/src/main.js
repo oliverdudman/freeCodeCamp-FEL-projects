@@ -2,6 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Control from "./Control";
 import Session from "./Session";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPause } from "@fortawesome/free-solid-svg-icons/faPause";
+import { faPlay } from "@fortawesome/free-solid-svg-icons/faPlay";
+import { faSync } from "@fortawesome/free-solid-svg-icons/faSync";
 
 class App extends React.Component {
   constructor(props) {
@@ -110,6 +114,7 @@ class App extends React.Component {
   render() {
     let sR = this.state.sessionRemaining;
     let clockTime = Number.isInteger(sR) ? sR : this.state.sessionLength * 60;
+    let startStop = this.state.paused ? faPlay : faPause;
     return (
       <div>
         <Control
@@ -125,8 +130,8 @@ class App extends React.Component {
           handleIncrement={this.handleIncrementSession}
         />
         <Session time={clockTime} onBreak={this.state.onBreak}/>
-        <button id="start_stop" onClick={this.handleToggleTimer}>Start/Stop</button>
-        <button id="reset" onClick={this.handleResetTimer}>Reset</button>
+        <button id="start_stop" onClick={this.handleToggleTimer}><FontAwesomeIcon icon={startStop} size="2x"/></button>
+        <button id="reset" onClick={this.handleResetTimer}><FontAwesomeIcon icon={faSync} size="2x" /></button>
         <audio id="beep" ref={this.beepRef} src="../audio/beep.mp3"></audio>
       </div>
     );
