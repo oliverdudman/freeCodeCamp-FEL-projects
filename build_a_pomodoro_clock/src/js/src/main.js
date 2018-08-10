@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Control from "./Control";
 import Session from "./Session";
 
 class App extends React.Component {
@@ -111,14 +112,18 @@ class App extends React.Component {
     let clockTime = Number.isInteger(sR) ? sR : this.state.sessionLength * 60;
     return (
       <div>
-        <h2 id="break-label">Break Length</h2>
-        <p id="break-length">{this.state.breakLength}</p>
-        <button id="break-decrement" onClick={this.handleDecrementBreak}>Minus</button>
-        <button id="break-increment" onClick={this.handleIncrementBreak}>Plus</button>
-        <h2 id="session-label">Session Length</h2>
-        <p id="session-length">{this.state.sessionLength}</p>
-        <button id="session-decrement" onClick={this.handleDecrementSession}>Minus</button>
-        <button id="session-increment" onClick={this.handleIncrementSession}>Plus</button>
+        <Control
+          type="break"
+          value={this.state.breakLength}
+          handleDecrement={this.handleDecrementBreak}
+          handleIncrement={this.handleIncrementBreak}
+        />
+        <Control
+          type="Session"
+          value={this.state.sessionLength}
+          handleDecrement={this.handleDecrementSession}
+          handleIncrement={this.handleIncrementSession}
+        />
         <Session time={clockTime} onBreak={this.state.onBreak}/>
         <button id="start_stop" onClick={this.handleToggleTimer}>Start/Stop</button>
         <button id="reset" onClick={this.handleResetTimer}>Reset</button>
