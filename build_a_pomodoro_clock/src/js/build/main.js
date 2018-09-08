@@ -22,24 +22,30 @@ function Control(props) {
   return _react.default.createElement("div", {
     style: {
       textTransform: "capitalize"
-    }
+    },
+    className: "control"
   }, _react.default.createElement("h2", {
     id: props.type + "-label"
-  }, props.type, " Length"), _react.default.createElement("p", {
-    id: props.type + "-length"
-  }, props.value), _react.default.createElement("button", {
+  }, props.type, " Length"), _react.default.createElement("div", {
+    className: "control__row"
+  }, _react.default.createElement("button", {
+    className: "control__row__btn",
     id: props.type + "-decrement",
     onClick: props.handleDecrement
   }, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _faAngleDown.faAngleDown,
     size: "2x"
-  })), _react.default.createElement("button", {
+  })), _react.default.createElement("div", {
+    className: "control__row__time",
+    id: props.type + "-length"
+  }, props.value), _react.default.createElement("button", {
+    className: "control__row__btn",
     id: props.type + "-increment",
     onClick: props.handleIncrement
   }, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _faAngleUp.faAngleUp,
     size: "2x"
-  })));
+  }))));
 }
 
 Control.propTypes = {

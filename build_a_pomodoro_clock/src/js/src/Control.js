@@ -6,11 +6,13 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons/faAngleDown";
 
 function Control(props) {
   return (
-    <div style={{textTransform: "capitalize"}}>
+    <div style={{textTransform: "capitalize"}} className="control">
       <h2 id={props.type + "-label"}>{props.type} Length</h2>
-      <p id={props.type + "-length"}>{props.value}</p>
-      <button id={props.type + "-decrement"} onClick={props.handleDecrement}><FontAwesomeIcon icon={faAngleDown} size="2x" /></button>
-      <button id={props.type + "-increment"} onClick={props.handleIncrement}><FontAwesomeIcon icon={faAngleUp} size="2x"/></button>
+      <div className="control__row">
+        <button className="control__row__btn" id={props.type + "-decrement"} onClick={props.handleDecrement}><FontAwesomeIcon icon={faAngleDown} size="2x" /></button>
+        <div className="control__row__time" id={props.type + "-length"}>{props.value}</div>
+        <button className="control__row__btn" id={props.type + "-increment"} onClick={props.handleIncrement}><FontAwesomeIcon icon={faAngleUp} size="2x"/></button>
+      </div>
     </div>
   );
 }

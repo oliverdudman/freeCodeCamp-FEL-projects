@@ -1,0 +1,23 @@
+.control {
+  width: 180px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: red;
+
+  &__row {
+    display: flex;
+    align-items: center;
+
+    &__btn {
+      background-color: inherit;
+      color: white;
+    }
+
+    &__time {
+      width: 2em;
+
+      text-align: center;
+    }
+  }
+}
