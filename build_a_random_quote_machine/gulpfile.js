@@ -93,7 +93,7 @@ gulp.task("build_js", function() {
 });
 
 gulp.task("clean", function() {
-  return gulp.src("dist")
+  return gulp.src("dist", {allowEmpty: true})
   .pipe(clean());
 });
 
