@@ -116,23 +116,30 @@ class App extends React.Component {
     let clockTime = Number.isInteger(sR) ? sR : this.state.sessionLength * 60;
     let startStop = this.state.paused ? faPlay : faPause;
     return (
-      <div>
-        <Control
-          type="break"
-          value={this.state.breakLength}
-          handleDecrement={this.handleDecrementBreak}
-          handleIncrement={this.handleIncrementBreak}
-        />
-        <Control
-          type="Session"
-          value={this.state.sessionLength}
-          handleDecrement={this.handleDecrementSession}
-          handleIncrement={this.handleIncrementSession}
-        />
-        <Session time={clockTime} onBreak={this.state.onBreak}/>
-        <button id="start_stop" onClick={this.handleToggleTimer}><FontAwesomeIcon icon={startStop} size="2x"/></button>
-        <button id="reset" onClick={this.handleResetTimer}><FontAwesomeIcon icon={faSync} size="2x" /></button>
-        <audio id="beep" ref={this.beepRef} src="../audio/beep.mp3"></audio>
+      <div className="container">
+        <h1 className="title">Pomodoro Clock</h1>
+        <div className="clock">
+          <div className="length-container">
+            <Control
+              type="break"
+              value={this.state.breakLength}
+              handleDecrement={this.handleDecrementBreak}
+              handleIncrement={this.handleIncrementBreak}
+            />
+            <Control
+              type="Session"
+              value={this.state.sessionLength}
+              handleDecrement={this.handleDecrementSession}
+              handleIncrement={this.handleIncrementSession}
+            />
+          </div>
+          <Session time={clockTime} onBreak={this.state.onBreak}/>
+          <div className="time-control">
+            <button className="time-control__btn" id="start_stop" onClick={this.handleToggleTimer}><FontAwesomeIcon icon={startStop} size="2x"/></button>
+            <button className="time-control__btn" id="reset" onClick={this.handleResetTimer}><FontAwesomeIcon icon={faSync} size="2x" /></button>
+          </div>
+          <audio id="beep" ref={this.beepRef} src="../audio/beep.mp3"></audio>
+        </div>
       </div>
     );
   }

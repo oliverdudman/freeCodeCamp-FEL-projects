@@ -1,8 +1,42 @@
-@import "control";
+@import "control",
+        "session";
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 html, body {
+  height: 100%;
   margin: 0;
 
   color: white;
   background-color: black;
+
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.clock {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  border: 3px solid white;
+  border-radius: 50px;
+  padding: 1rem;
+}
+
+.title {
+  margin-bottom: 1.8rem;
 }

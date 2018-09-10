@@ -1,0 +1,19 @@
+.session {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  margin: 1rem 0;
+  border: 2px solid white;
+  border-radius: 15px;
+  padding: 1rem;
+
+  &__label {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  &__time {
+    font-size: 4rem;
+  }
+}

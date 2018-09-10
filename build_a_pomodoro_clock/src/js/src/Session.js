@@ -11,9 +11,9 @@ class Session extends React.Component {
                `${(this.props.time % 60).toString().padStart(2, "0")}`;
     let text = this.props.onBreak ? "Break" : "Session";
     return (
-      <div>
-        <h2 id="timer-label">{text}</h2>
-        <div id="time-left">{time}</div>
+      <div className="session">
+        <h2 className="session__label" id="timer-label">{text}</h2>
+        <div className="session__time" id="time-left">{time}</div>
       </div>
     );
   }

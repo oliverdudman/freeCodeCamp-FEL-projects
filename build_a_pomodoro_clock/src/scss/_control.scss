@@ -1,23 +1,66 @@
-.control {
-  width: 180px;
+.length-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  @media screen and (min-width: 600px) {
+    width: 500px;
+    justify-content: space-around;
+    flex-direction: row;
+  }
+}
+
+.length-control {
+  width: 200px;
   display: flex;
   align-items: center;
   flex-direction: column;
-  color: red;
+  color: white;
+
+  &__label {
+    margin: 0 10px;
+  }
 
   &__row {
     display: flex;
     align-items: center;
 
+    font-size: 2.5rem;
+
     &__btn {
       background-color: inherit;
+      border: none;
       color: white;
+
+      font-size: 0.4em;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     &__time {
-      width: 2em;
+      width: 1.5em;
 
       text-align: center;
+    }
+  }
+}
+
+.time-control {
+  width: 75px;
+  display: flex;
+  justify-content: center;
+  padding: 5%;
+
+  &__btn {
+    background-color: inherit;
+    border: none;
+    color: white;
+    font-size: 0.9rem;
+
+    &:hover {
+      cursor: pointer;
     }
   }
 }

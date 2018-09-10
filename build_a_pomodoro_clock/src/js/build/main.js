@@ -23,23 +23,24 @@ function Control(props) {
     style: {
       textTransform: "capitalize"
     },
-    className: "control"
+    className: "length-control"
   }, _react.default.createElement("h2", {
+    className: "length-control__label",
     id: props.type + "-label"
   }, props.type, " Length"), _react.default.createElement("div", {
-    className: "control__row"
+    className: "length-control__row"
   }, _react.default.createElement("button", {
-    className: "control__row__btn",
+    className: "length-control__row__btn",
     id: props.type + "-decrement",
     onClick: props.handleDecrement
   }, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
     icon: _faAngleDown.faAngleDown,
     size: "2x"
   })), _react.default.createElement("div", {
-    className: "control__row__time",
+    className: "length-control__row__time",
     id: props.type + "-length"
   }, props.value), _react.default.createElement("button", {
-    className: "control__row__btn",
+    className: "length-control__row__btn",
     id: props.type + "-increment",
     onClick: props.handleIncrement
   }, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
@@ -105,9 +106,13 @@ function (_React$Component) {
     value: function render() {
       var time = "".concat(Math.floor(this.props.time / 60).toString().padStart(2, "0"), ":") + "".concat((this.props.time % 60).toString().padStart(2, "0"));
       var text = this.props.onBreak ? "Break" : "Session";
-      return _react.default.createElement("div", null, _react.default.createElement("h2", {
+      return _react.default.createElement("div", {
+        className: "session"
+      }, _react.default.createElement("h2", {
+        className: "session__label",
         id: "timer-label"
       }, text), _react.default.createElement("div", {
+        className: "session__time",
         id: "time-left"
       }, time));
     }
@@ -307,7 +312,15 @@ function (_React$Component) {
       var sR = this.state.sessionRemaining;
       var clockTime = Number.isInteger(sR) ? sR : this.state.sessionLength * 60;
       var startStop = this.state.paused ? _faPlay.faPlay : _faPause.faPause;
-      return _react.default.createElement("div", null, _react.default.createElement(_Control.default, {
+      return _react.default.createElement("div", {
+        className: "container"
+      }, _react.default.createElement("h1", {
+        className: "title"
+      }, "Pomodoro Clock"), _react.default.createElement("div", {
+        className: "clock"
+      }, _react.default.createElement("div", {
+        className: "length-container"
+      }, _react.default.createElement(_Control.default, {
         type: "break",
         value: this.state.breakLength,
         handleDecrement: this.handleDecrementBreak,
@@ -317,26 +330,30 @@ function (_React$Component) {
         value: this.state.sessionLength,
         handleDecrement: this.handleDecrementSession,
         handleIncrement: this.handleIncrementSession
-      }), _react.default.createElement(_Session.default, {
+      })), _react.default.createElement(_Session.default, {
         time: clockTime,
         onBreak: this.state.onBreak
-      }), _react.default.createElement("button", {
+      }), _react.default.createElement("div", {
+        className: "time-control"
+      }, _react.default.createElement("button", {
+        className: "time-control__btn",
         id: "start_stop",
         onClick: this.handleToggleTimer
       }, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
         icon: startStop,
         size: "2x"
       })), _react.default.createElement("button", {
+        className: "time-control__btn",
         id: "reset",
         onClick: this.handleResetTimer
       }, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
         icon: _faSync.faSync,
         size: "2x"
-      })), _react.default.createElement("audio", {
+      }))), _react.default.createElement("audio", {
         id: "beep",
         ref: this.beepRef,
         src: "../audio/beep.mp3"
-      }));
+      })));
     }
   }]);
 
