@@ -12,7 +12,6 @@ const rename = require("gulp-rename");
 const envify = require("envify/custom");
 const htmlreplace = require("gulp-html-replace");
 const clean = require("gulp-clean");
-const runSequence = require("run-sequence");
 const htmlmin = require("gulp-htmlmin");
 const exorcist = require("exorcist");
 
@@ -51,15 +50,15 @@ gulp.task("browserify", function() {
   .pipe(reload({stream: true}));
 });
 
-gulp.task("default", ["sass", "browserify", "eslint"], function() {
+gulp.task("default", gulp.series("sass", "browserify", "eslint", function startServer() {
   browserSync({
     server: "src",
   });
 
-  gulp.watch(["src/scss/*.scss"], ["sass"]);
+  gulp.watch(["src/scss/*.scss"], gulp.series("sass"));
   gulp.watch(["src/index.html"], reload);
-  gulp.watch(["src/js/src/*.js"], ["browserify", "eslint"]);
-});
+  gulp.watch(["src/js/src/*.js"], gulp.parallel("browserify", "eslint"));
+}));
 
 // build tools
 
@@ -94,10 +93,10 @@ gulp.task("build_js", function() {
 });
 
 gulp.task("clean", function() {
-  return gulp.src("dist")
+  return gulp.src("dist", {allowEmpty: true})
   .pipe(clean());
 });
 
-gulp.task("build", function(callback) {
-  runSequence("clean", ["build_html", "build_sass", "build_js"], callback);
-});
+gulp.task("build", gulp.series("clean",
+  gulp.parallel("build_html", "build_sass", "build_js"))
+);
