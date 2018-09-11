@@ -10,8 +10,9 @@ class Session extends React.Component {
     let time = `${Math.floor(this.props.time/60).toString().padStart(2, "0")}:` +
                `${(this.props.time % 60).toString().padStart(2, "0")}`;
     let text = this.props.onBreak ? "Break" : "Session";
+    let color = this.props.onBreak ? "green" : "blue";
     return (
-      <div className="session">
+      <div className="session" style={{backgroundColor: color}}>
         <h2 className="session__label" id="timer-label">{text}</h2>
         <div className="session__time" id="time-left">{time}</div>
       </div>
