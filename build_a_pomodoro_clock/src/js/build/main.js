@@ -330,7 +330,7 @@ function (_React$Component) {
         handleDecrement: this.handleDecrementBreak,
         handleIncrement: this.handleIncrementBreak
       }), _react.default.createElement(_Control.default, {
-        type: "Session",
+        type: "session",
         value: this.state.sessionLength,
         handleDecrement: this.handleDecrementSession,
         handleIncrement: this.handleIncrementSession

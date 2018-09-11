@@ -127,7 +127,7 @@ class App extends React.Component {
               handleIncrement={this.handleIncrementBreak}
             />
             <Control
-              type="Session"
+              type="session"
               value={this.state.sessionLength}
               handleDecrement={this.handleDecrementSession}
               handleIncrement={this.handleIncrementSession}
