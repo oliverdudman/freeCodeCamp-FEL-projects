@@ -1,0 +1,22 @@
+.calc {
+  display: grid;
+  grid-template-columns: $btn-size $btn-size $btn-size $btn-size;
+  grid-auto-rows: $btn-size;
+  grid-gap: 2px;
+
+  background-color: black;
+
+  &__btn {
+    background-color: orange;
+
+    font-size: 20px;
+
+    &--2w {
+      grid-column: span 2;
+    }
+
+    &--2h {
+      grid-row: span 2;
+    }
+  }
+}

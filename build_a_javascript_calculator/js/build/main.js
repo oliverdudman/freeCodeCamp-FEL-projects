@@ -13,12 +13,23 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function Row(props) {
-  return _react.default.createElement("div", null, props.buttons.map(function (btn) {
+  return props.buttons.map(function (btn) {
+    var classes;
+
+    if (btn.size === "2w") {
+      classes = "calc__btn calc__btn--2w";
+    } else if (btn.size === "2h") {
+      classes = "calc__btn calc__btn--2h";
+    } else {
+      classes = "calc__btn";
+    }
+
     return _react.default.createElement("button", {
       id: btn.id,
+      className: classes,
       key: btn.id
     }, btn.value);
-  }));
+  });
 }
 
 Row.propTypes = {
@@ -71,11 +82,12 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       return _react.default.createElement("div", {
-        className: "calculator"
+        className: "calc"
       }, _react.default.createElement(_Row.default, {
         buttons: [{
           id: "clear",
-          value: "AC"
+          value: "AC",
+          size: "2w"
         }, {
           id: "divide",
           value: "/"
@@ -123,7 +135,17 @@ function (_React$Component) {
           value: 3
         }, {
           id: "equals",
-          value: "="
+          value: "=",
+          size: "2h"
+        }]
+      }), _react.default.createElement(_Row.default, {
+        buttons: [{
+          id: "zero",
+          value: 0,
+          size: "2w"
+        }, {
+          id: "decimal",
+          value: "."
         }]
       }));
     }
