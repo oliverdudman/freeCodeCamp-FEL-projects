@@ -192,7 +192,9 @@ function (_React$Component) {
       if (num === "0" && input !== "." || num === null || typeof num === "number") {
         num = input;
       } else {
-        num += input;
+        if (!num.includes(".") || input !== ".") {
+          num += input;
+        }
       }
 
       return num;
