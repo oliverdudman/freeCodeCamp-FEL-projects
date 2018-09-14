@@ -1,10 +1,21 @@
 .calc {
-  display: grid;
-  grid-template-columns: $btn-size $btn-size $btn-size $btn-size;
-  grid-auto-rows: $btn-size;
-  grid-gap: 2px;
-
+  padding: 0.5rem;
   background-color: black;
+
+  &__display {
+    padding: 0.5rem 1rem;
+    color: white;
+
+    font-size: 2rem;
+    text-align: right;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: $btn-size $btn-size $btn-size $btn-size;
+    grid-auto-rows: $btn-size;
+    grid-gap: 2px;
+  }
 
   &__btn {
     background-color: orange;
