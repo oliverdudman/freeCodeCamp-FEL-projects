@@ -39,7 +39,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function Row(props) {
+function Grid(props) {
   return props.buttons.map(function (btn) {
     var classes;
 
@@ -59,10 +59,10 @@ function Row(props) {
   });
 }
 
-Row.propTypes = {
+Grid.propTypes = {
   buttons: _propTypes.default.array.isRequired
 };
-var _default = Row;
+var _default = Grid;
 exports.default = _default;
 
 },{"prop-types":22,"react":31}],3:[function(require,module,exports){
@@ -72,7 +72,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _reactDom = _interopRequireDefault(require("react-dom"));
 
-var _Row = _interopRequireDefault(require("./Row"));
+var _Grid = _interopRequireDefault(require("./Grid"));
 
 var _Display = _interopRequireDefault(require("./Display"));
 
@@ -102,9 +102,67 @@ function (_React$Component) {
   _inherits(App, _React$Component);
 
   function App(props) {
+    var _this;
+
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
+    _this.BUTTONS = [{
+      id: "clear",
+      value: "AC",
+      size: "2w"
+    }, {
+      id: "divide",
+      value: "/"
+    }, {
+      id: "multiply",
+      value: "X"
+    }, {
+      id: "seven",
+      value: 7
+    }, {
+      id: "eight",
+      value: 8
+    }, {
+      id: "nine",
+      value: 9
+    }, {
+      id: "subtract",
+      value: "-"
+    }, {
+      id: "four",
+      value: 4
+    }, {
+      id: "five",
+      value: 5
+    }, {
+      id: "six",
+      value: 6
+    }, {
+      id: "add",
+      value: "+"
+    }, {
+      id: "one",
+      value: 1
+    }, {
+      id: "two",
+      value: 2
+    }, {
+      id: "three",
+      value: 3
+    }, {
+      id: "equals",
+      value: "=",
+      size: "2h"
+    }, {
+      id: "zero",
+      value: 0,
+      size: "2w"
+    }, {
+      id: "decimal",
+      value: "."
+    }];
+    return _this;
   }
 
   _createClass(App, [{
@@ -116,70 +174,8 @@ function (_React$Component) {
         value: "0"
       }), _react.default.createElement("div", {
         className: "calc__grid"
-      }, _react.default.createElement(_Row.default, {
-        buttons: [{
-          id: "clear",
-          value: "AC",
-          size: "2w"
-        }, {
-          id: "divide",
-          value: "/"
-        }, {
-          id: "multiply",
-          value: "X"
-        }]
-      }), _react.default.createElement(_Row.default, {
-        buttons: [{
-          id: "seven",
-          value: 7
-        }, {
-          id: "eight",
-          value: 8
-        }, {
-          id: "nine",
-          value: 9
-        }, {
-          id: "subtract",
-          value: "-"
-        }]
-      }), _react.default.createElement(_Row.default, {
-        buttons: [{
-          id: "four",
-          value: 4
-        }, {
-          id: "five",
-          value: 5
-        }, {
-          id: "six",
-          value: 6
-        }, {
-          id: "add",
-          value: "+"
-        }]
-      }), _react.default.createElement(_Row.default, {
-        buttons: [{
-          id: "one",
-          value: 1
-        }, {
-          id: "two",
-          value: 2
-        }, {
-          id: "three",
-          value: 3
-        }, {
-          id: "equals",
-          value: "=",
-          size: "2h"
-        }]
-      }), _react.default.createElement(_Row.default, {
-        buttons: [{
-          id: "zero",
-          value: 0,
-          size: "2w"
-        }, {
-          id: "decimal",
-          value: "."
-        }]
+      }, _react.default.createElement(_Grid.default, {
+        buttons: this.BUTTONS
       })));
     }
   }]);
@@ -189,7 +185,7 @@ function (_React$Component) {
 
 _reactDom.default.render(_react.default.createElement(App, null), document.getElementById("root"));
 
-},{"./Display":1,"./Row":2,"react":31,"react-dom":27}],4:[function(require,module,exports){
+},{"./Display":1,"./Grid":2,"react":31,"react-dom":27}],4:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *

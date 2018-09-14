@@ -1,7 +1,7 @@
 import React from "react";
 import Proptypes from "prop-types";
 
-function Row(props) {
+function Grid(props) {
   return (
 
 
@@ -23,8 +23,8 @@ function Row(props) {
   );
 }
 
-Row.propTypes = {
+Grid.propTypes = {
   buttons: Proptypes.array.isRequired,
 };
 
-export default Row;
+export default Grid;
