@@ -26,6 +26,86 @@ class App extends React.Component {
       {id: "zero", value: 0, size:"2w"},
       {id:"decimal", value:"."}
     ];
+
+    this.state = {
+      num1: "0",
+      num2: null,
+      operator: null
+    };
+
+    this.createNumber = this.createNumber.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleNumClick = this.handleNumClick.bind(this);
+    this.handleReset = this.handleReset.bind(this);
+  }
+
+  createNumber(curr, input) {
+    let num = curr;
+    if ((num === "0" && input !== ".") || num === null || typeof(num) === "number") {
+      num = input;
+    } else {
+      num += input;
+    }
+    return num;
+  }
+
+  handleClick(e) {
+    let btn = e.target.innerHTML;
+    if (btn === "AC") {
+      this.handleReset();
+    } else if (btn === "=") {
+      let num1 = parseFloat(this.state.num1);
+      let num2 = parseFloat(this.state.num2);
+      let result;
+
+      switch(this.state.operator) {
+        case "/":
+          result = num1 / num2;
+          break;
+        case "X":
+          result = num1 * num2;
+          break;
+        case "+":
+          result = num1 + num2;
+          break;
+        case "-":
+          result = num1 - num2;
+          break;
+        default:
+          result = num1;
+      }
+
+      console.log(result);
+
+      this.setState({
+        num1: result,
+        num2: null,
+        operator: null
+      });
+
+    } else {
+      this.setState({operator: btn});
+    }
+  }
+
+  handleNumClick(e) {
+    if (!this.state.operator) {
+      let num = this.createNumber(this.state.num1, e.target.innerHTML);
+      console.log(num);
+      this.setState({num1: num});
+    } else {
+      let num = this.createNumber(this.state.num2, e.target.innerHTML);
+      console.log(num);
+      this.setState({num2: num});
+    }
+  }
+
+  handleReset() {
+    this.setState({
+      num1: "0",
+      num2: null,
+      operator: null
+    });
   }
 
   render() {
@@ -33,7 +113,11 @@ class App extends React.Component {
       <div className="calc">
         <Display value="0" />
         <div className="calc__grid">
-          <Grid buttons={this.BUTTONS} />
+          <Grid
+            buttons={this.BUTTONS}
+            handleClick={this.handleClick}
+            handleNumClick={this.handleNumClick}
+          />
         </div>
       </div>
     );

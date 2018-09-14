@@ -42,6 +42,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function Grid(props) {
   return props.buttons.map(function (btn) {
     var classes;
+    var func;
 
     if (btn.size === "2w") {
       classes = "calc__btn calc__btn--2w";
@@ -51,16 +52,25 @@ function Grid(props) {
       classes = "calc__btn";
     }
 
+    if (typeof btn.value === "number" || btn.value === ".") {
+      func = props.handleNumClick;
+    } else {
+      func = props.handleClick;
+    }
+
     return _react.default.createElement("button", {
       id: btn.id,
       className: classes,
+      onClick: func,
       key: btn.id
     }, btn.value);
   });
 }
 
 Grid.propTypes = {
-  buttons: _propTypes.default.array.isRequired
+  buttons: _propTypes.default.array.isRequired,
+  handleClick: _propTypes.default.func.isRequired,
+  handleNumClick: _propTypes.default.func.isRequired
 };
 var _default = Grid;
 exports.default = _default;
@@ -88,13 +98,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 var App =
 /*#__PURE__*/
@@ -162,10 +172,104 @@ function (_React$Component) {
       id: "decimal",
       value: "."
     }];
+    _this.state = {
+      num1: "0",
+      num2: null,
+      operator: null
+    };
+    _this.createNumber = _this.createNumber.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleNumClick = _this.handleNumClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleReset = _this.handleReset.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
   _createClass(App, [{
+    key: "createNumber",
+    value: function createNumber(curr, input) {
+      var num = curr;
+
+      if (num === "0" && input !== "." || num === null || typeof num === "number") {
+        num = input;
+      } else {
+        num += input;
+      }
+
+      return num;
+    }
+  }, {
+    key: "handleClick",
+    value: function handleClick(e) {
+      var btn = e.target.innerHTML;
+
+      if (btn === "AC") {
+        this.handleReset();
+      } else if (btn === "=") {
+        var num1 = parseFloat(this.state.num1);
+        var num2 = parseFloat(this.state.num2);
+        var result;
+
+        switch (this.state.operator) {
+          case "/":
+            result = num1 / num2;
+            break;
+
+          case "X":
+            result = num1 * num2;
+            break;
+
+          case "+":
+            result = num1 + num2;
+            break;
+
+          case "-":
+            result = num1 - num2;
+            break;
+
+          default:
+            result = num1;
+        }
+
+        console.log(result);
+        this.setState({
+          num1: result,
+          num2: null,
+          operator: null
+        });
+      } else {
+        this.setState({
+          operator: btn
+        });
+      }
+    }
+  }, {
+    key: "handleNumClick",
+    value: function handleNumClick(e) {
+      if (!this.state.operator) {
+        var num = this.createNumber(this.state.num1, e.target.innerHTML);
+        console.log(num);
+        this.setState({
+          num1: num
+        });
+      } else {
+        var _num = this.createNumber(this.state.num2, e.target.innerHTML);
+
+        console.log(_num);
+        this.setState({
+          num2: _num
+        });
+      }
+    }
+  }, {
+    key: "handleReset",
+    value: function handleReset() {
+      this.setState({
+        num1: "0",
+        num2: null,
+        operator: null
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return _react.default.createElement("div", {
@@ -175,7 +279,9 @@ function (_React$Component) {
       }), _react.default.createElement("div", {
         className: "calc__grid"
       }, _react.default.createElement(_Grid.default, {
-        buttons: this.BUTTONS
+        buttons: this.BUTTONS,
+        handleClick: this.handleClick,
+        handleNumClick: this.handleNumClick
       })));
     }
   }]);

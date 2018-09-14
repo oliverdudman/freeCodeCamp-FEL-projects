@@ -7,6 +7,7 @@ function Grid(props) {
 
         props.buttons.map((btn) => {
           let classes;
+          let func;
 
           if (btn.size === "2w") {
             classes = "calc__btn calc__btn--2w";
@@ -15,7 +16,13 @@ function Grid(props) {
           } else {
             classes = "calc__btn";
           }
-          return <button id={btn.id} className={classes} key={btn.id}>{btn.value}</button>;
+
+          if (typeof(btn.value) === "number" || btn.value === ".") {
+            func = props.handleNumClick;
+          } else {
+            func = props.handleClick;
+          }
+          return <button id={btn.id} className={classes} onClick={func} key={btn.id}>{btn.value}</button>;
         })
 
 
@@ -25,6 +32,8 @@ function Grid(props) {
 
 Grid.propTypes = {
   buttons: Proptypes.array.isRequired,
+  handleClick: Proptypes.func.isRequired,
+  handleNumClick: Proptypes.func.isRequired
 };
 
 export default Grid;
