@@ -272,10 +272,20 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var display = this.state.num1.toString();
+
+      if (this.state.operator) {
+        display += this.state.operator;
+
+        if (this.state.num2) {
+          display += this.state.num2;
+        }
+      }
+
       return _react.default.createElement("div", {
         className: "calc"
       }, _react.default.createElement(_Display.default, {
-        value: "0"
+        value: display
       }), _react.default.createElement("div", {
         className: "calc__grid"
       }, _react.default.createElement(_Grid.default, {

@@ -109,9 +109,16 @@ class App extends React.Component {
   }
 
   render() {
+    let display = this.state.num1.toString();
+    if (this.state.operator) {
+      display += this.state.operator;
+      if (this.state.num2) {
+        display += this.state.num2;
+      }
+    }
     return (
       <div className="calc">
-        <Display value="0" />
+        <Display value={display} />
         <div className="calc__grid">
           <Grid
             buttons={this.BUTTONS}
