@@ -1,10 +1,13 @@
 .calc {
   padding: 0.5rem;
-  background-color: black;
+  background-color: $calc-color;
+  border: 2px solid darken($calc-color, 15);
 
   &__display {
+    margin-bottom: 0.5rem;
     padding: 0.5rem 1rem;
-    color: white;
+    background-color: darken($calc-color, 25);
+    color: #e3f0ff;
 
     font-size: 2rem;
     text-align: right;
@@ -14,11 +17,12 @@
     display: grid;
     grid-template-columns: $btn-size $btn-size $btn-size $btn-size;
     grid-auto-rows: $btn-size;
-    grid-gap: 2px;
+    border: 1px solid $calc-btn-border-color;
   }
 
   &__btn {
-    background-color: orange;
+    border-color: $calc-btn-border-color;
+    background-color: $calc-btn-color;
 
     font-size: 20px;
 
@@ -28,6 +32,16 @@
 
     &--2h {
       grid-row: span 2;
+    }
+
+    &:focus {
+      // put outline on top of all buttons
+      position: relative;
+      z-index: 1;
+    }
+
+    &:active {
+      background-color: darken($calc-btn-color, 20);
     }
   }
 }
