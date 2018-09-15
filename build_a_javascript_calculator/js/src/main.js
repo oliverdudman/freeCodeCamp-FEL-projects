@@ -60,24 +60,26 @@ class App extends React.Component {
       // run calc if chaining or if the equals btn is pressed
       let num1 = parseFloat(this.state.num1);
       let num2 = parseFloat(this.state.num2);
-      let result;
+      let result = num1;// fail safe
 
-      switch(this.state.operator) {
-        case "/":
-          result = num1 / num2;
-          break;
-        case "X":
-          result = num1 * num2;
-          break;
-        case "+":
-          result = num1 + num2;
-          break;
-        case "-":
-          result = num1 - num2;
-          break;
-        default:
-          result = num1;
-      }
+      if (num2) {
+        switch(this.state.operator) {
+          case "/":
+            result = num1 / num2;
+            break;
+          case "X":
+            result = num1 * num2;
+            break;
+          case "+":
+            result = num1 + num2;
+            break;
+          case "-":
+            result = num1 - num2;
+            break;
+          default:
+            result = num1;
+        }
+      }     
 
       let operator = btn !== "=" ? btn : null;// set operator for chaining
 
