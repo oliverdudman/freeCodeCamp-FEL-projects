@@ -208,7 +208,7 @@ function (_React$Component) {
       if (btn === "AC") {
         this.handleReset();
       } else if (btn === "=" || this.state.num2 && btn !== "=") {
-        // run calc if any operator or the equals btn is pressed
+        // run calc if chaining or if the equals btn is pressed
         var num1 = parseFloat(this.state.num1);
         var num2 = parseFloat(this.state.num2);
         var result;
@@ -242,6 +242,7 @@ function (_React$Component) {
           operator: operator
         });
       } else {
+        // set operator when not chaining 
         this.setState({
           operator: btn
         });
