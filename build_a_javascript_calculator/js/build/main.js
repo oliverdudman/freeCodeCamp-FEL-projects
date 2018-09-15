@@ -90,6 +90,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -242,7 +244,7 @@ function (_React$Component) {
           operator: operator
         });
       } else {
-        // set operator when not chaining 
+        // set operator when not chaining
         this.setState({
           operator: btn
         });
@@ -252,18 +254,9 @@ function (_React$Component) {
     key: "handleNumClick",
     value: function handleNumClick(e) {
       // handle numeric btn clicks
-      if (!this.state.operator) {
-        var num = this.createNumber(this.state.num1, e.target.innerHTML);
-        this.setState({
-          num1: num
-        });
-      } else {
-        var _num = this.createNumber(this.state.num2, e.target.innerHTML);
-
-        this.setState({
-          num2: _num
-        });
-      }
+      var currNum = this.state.operator ? "num2" : "num1";
+      var value = this.createNumber(this.state[currNum], e.target.innerHTML);
+      this.setState(_defineProperty({}, currNum, value));
     }
   }, {
     key: "handleReset",

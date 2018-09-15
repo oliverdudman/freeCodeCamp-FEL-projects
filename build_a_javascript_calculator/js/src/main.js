@@ -88,20 +88,16 @@ class App extends React.Component {
       });
 
     } else {
-      // set operator when not chaining 
+      // set operator when not chaining
       this.setState({operator: btn});
     }
   }
 
   handleNumClick(e) {
     // handle numeric btn clicks
-    if (!this.state.operator) {
-      let num = this.createNumber(this.state.num1, e.target.innerHTML);
-      this.setState({num1: num});
-    } else {
-      let num = this.createNumber(this.state.num2, e.target.innerHTML);
-      this.setState({num2: num});
-    }
+    let currNum = this.state.operator ? "num2" : "num1";
+    let value = this.createNumber(this.state[currNum], e.target.innerHTML);
+    this.setState({[currNum]: value});
   }
 
   handleReset() {
