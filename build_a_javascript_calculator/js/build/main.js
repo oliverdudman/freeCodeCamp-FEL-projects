@@ -231,10 +231,9 @@ function (_React$Component) {
             break;
 
           default:
-            result = num1 * 10;
+            result = num1;
         }
 
-        console.log(result);
         var operator = btn !== "=" ? btn : null; // set operator for chaining
 
         this.setState({
@@ -254,14 +253,12 @@ function (_React$Component) {
       // handle numeric btn clicks
       if (!this.state.operator) {
         var num = this.createNumber(this.state.num1, e.target.innerHTML);
-        console.log(num);
         this.setState({
           num1: num
         });
       } else {
         var _num = this.createNumber(this.state.num2, e.target.innerHTML);
 
-        console.log(_num);
         this.setState({
           num2: _num
         });

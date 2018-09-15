@@ -76,10 +76,8 @@ class App extends React.Component {
           result = num1 - num2;
           break;
         default:
-          result = num1 * 10;
+          result = num1;
       }
-
-      console.log(result);
 
       let operator = btn !== "=" ? btn : null;// set operator for chaining
 
@@ -98,11 +96,9 @@ class App extends React.Component {
     // handle numeric btn clicks
     if (!this.state.operator) {
       let num = this.createNumber(this.state.num1, e.target.innerHTML);
-      console.log(num);
       this.setState({num1: num});
     } else {
       let num = this.createNumber(this.state.num2, e.target.innerHTML);
-      console.log(num);
       this.setState({num2: num});
     }
   }
