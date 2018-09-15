@@ -52,10 +52,12 @@ class App extends React.Component {
   }
 
   handleClick(e) {
+    // handle non-numeric btn clicks
     let btn = e.target.innerHTML;
     if (btn === "AC") {
       this.handleReset();
-    } else if (btn === "=") {
+    } else if (btn === "=" || (this.state.num2 && btn !== "=")) {
+      // run calc if any operator or the equals btn is pressed
       let num1 = parseFloat(this.state.num1);
       let num2 = parseFloat(this.state.num2);
       let result;
@@ -74,15 +76,17 @@ class App extends React.Component {
           result = num1 - num2;
           break;
         default:
-          result = num1;
+          result = num1 * 10;
       }
 
       console.log(result);
 
+      let operator = btn !== "=" ? btn : null;// set operator for chaining
+
       this.setState({
         num1: result,
         num2: null,
-        operator: null
+        operator: operator
       });
 
     } else {
@@ -91,6 +95,7 @@ class App extends React.Component {
   }
 
   handleNumClick(e) {
+    // handle numeric btn clicks
     if (!this.state.operator) {
       let num = this.createNumber(this.state.num1, e.target.innerHTML);
       console.log(num);
