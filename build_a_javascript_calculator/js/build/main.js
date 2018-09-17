@@ -16,7 +16,7 @@ function Display(props) {
   return _react.default.createElement("div", {
     id: "display",
     className: "calc__display"
-  }, _react.default.createElement("span", null, props.value));
+  }, props.value);
 }
 
 Display.propTypes = {

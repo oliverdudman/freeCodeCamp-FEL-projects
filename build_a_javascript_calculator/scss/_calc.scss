@@ -4,13 +4,18 @@
   border: 2px solid darken($calc-color, 15);
 
   &__display {
+    display: flex;
+    justify-content: flex-end;
+    width: 4 * $btn-size;
     margin-bottom: 0.5rem;
     padding: 0.5rem 1rem;
+    box-sizing: border-box;
+    overflow: hidden;
+
     background-color: darken($calc-color, 25);
     color: #e3f0ff;
 
     font-size: 2rem;
-    text-align: right;
   }
 
   &__grid {
