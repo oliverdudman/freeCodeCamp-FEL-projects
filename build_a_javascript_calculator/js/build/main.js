@@ -14,9 +14,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function Display(props) {
   return _react.default.createElement("div", {
-    id: "display",
     className: "calc__display"
-  }, props.value);
+  }, _react.default.createElement("div", {
+    id: "display",
+    className: "calc__display__content"
+  }, props.value));
 }
 
 Display.propTypes = {
@@ -174,7 +176,7 @@ function (_React$Component) {
       id: "decimal",
       value: "."
     }];
-    _this.MAX_DISPLAY_LENGTH = 13;
+    _this.MAX_DISPLAY_LENGTH = 12;
     _this.state = {
       num1: "0",
       num2: null,

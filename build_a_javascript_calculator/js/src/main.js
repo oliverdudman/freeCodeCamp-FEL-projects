@@ -27,7 +27,7 @@ class App extends React.Component {
       {id:"decimal", value:"."}
     ];
 
-    this.MAX_DISPLAY_LENGTH = 13;
+    this.MAX_DISPLAY_LENGTH = 12;
 
     this.state = {
       num1: "0",

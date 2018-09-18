@@ -1,4 +1,7 @@
 .calc {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   padding: 0.5rem;
   background-color: $calc-color;
   border: 2px solid darken($calc-color, 15);
@@ -8,14 +11,20 @@
     justify-content: flex-end;
     width: 4 * $btn-size;
     margin-bottom: 0.5rem;
-    padding: 0.5rem 1rem;
     box-sizing: border-box;
-    overflow: hidden;
 
     background-color: darken($calc-color, 25);
     color: #e3f0ff;
 
     font-size: 2rem;
+
+    &__content {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      overflow: hidden;
+      margin: 0.5rem 0.8rem;
+    }
   }
 
   &__grid {
