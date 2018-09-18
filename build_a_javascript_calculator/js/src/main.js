@@ -27,6 +27,8 @@ class App extends React.Component {
       {id:"decimal", value:"."}
     ];
 
+    this.MAX_DISPLAY_LENGTH = 13;
+
     this.state = {
       num1: "0",
       num2: null,
@@ -34,19 +36,34 @@ class App extends React.Component {
     };
 
     this.createNumber = this.createNumber.bind(this);
+    this.formatResult = this.formatResult.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleNumClick = this.handleNumClick.bind(this);
     this.handleReset = this.handleReset.bind(this);
   }
 
   createNumber(curr, input) {
+    // typeof(num) is number if displaying result or a string if the number is exponential
     let num = curr;
-    if ((num === "0" && input !== ".") || num === null || typeof(num) === "number") {
+    if ((num === "0" && input !== ".") || num === null
+    || typeof(num) === "number" /*result disp*/ || num.includes("e") /*exp result disp*/) {
       num = input;
     } else {
       if (!num.includes(".") || input !== ".") {
         num += input;
       }
+    }
+    return num;
+  }
+
+  formatResult(num) {
+    let result;
+    let numString = num.toString();
+    if (numString.length > this.MAX_DISPLAY_LENGTH) {
+      result = num.toPrecision(9).toString();
+
+      result = result.replace(/.?[0]+e/, "e");
+      return result;
     }
     return num;
   }
@@ -79,8 +96,9 @@ class App extends React.Component {
           default:
             result = num1;
         }
-      }     
+      }
 
+      result = this.formatResult(result);
       let operator = btn !== "=" ? btn : null;// set operator for chaining
 
       this.setState({

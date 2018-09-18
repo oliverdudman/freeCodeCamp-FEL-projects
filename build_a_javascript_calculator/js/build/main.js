@@ -174,12 +174,14 @@ function (_React$Component) {
       id: "decimal",
       value: "."
     }];
+    _this.MAX_DISPLAY_LENGTH = 13;
     _this.state = {
       num1: "0",
       num2: null,
       operator: null
     };
     _this.createNumber = _this.createNumber.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.formatResult = _this.formatResult.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleNumClick = _this.handleNumClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleReset = _this.handleReset.bind(_assertThisInitialized(_assertThisInitialized(_this)));
@@ -189,14 +191,33 @@ function (_React$Component) {
   _createClass(App, [{
     key: "createNumber",
     value: function createNumber(curr, input) {
+      // typeof(num) is number if displaying result or a string if the number is exponential
       var num = curr;
 
-      if (num === "0" && input !== "." || num === null || typeof num === "number") {
-        num = input;
-      } else {
+      if (num === "0" && input !== "." || num === null || typeof num === "number"
+      /*result disp*/
+      || num.includes("e")
+      /*exp result disp*/
+      ) {
+          num = input;
+        } else {
         if (!num.includes(".") || input !== ".") {
           num += input;
         }
+      }
+
+      return num;
+    }
+  }, {
+    key: "formatResult",
+    value: function formatResult(num) {
+      var result;
+      var numString = num.toString();
+
+      if (numString.length > this.MAX_DISPLAY_LENGTH) {
+        result = num.toPrecision(9).toString();
+        result = result.replace(/.?[0]+e/, "e");
+        return result;
       }
 
       return num;
@@ -238,6 +259,7 @@ function (_React$Component) {
           }
         }
 
+        result = this.formatResult(result);
         var operator = btn !== "=" ? btn : null; // set operator for chaining
 
         this.setState({
