@@ -40,6 +40,8 @@
 
     font-size: 20px;
 
+    touch-action: manipulation;
+
     &--2w {
       grid-column: span 2;
     }
