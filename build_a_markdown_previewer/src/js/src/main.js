@@ -15,7 +15,7 @@ class App extends React.Component {
 
     this.state = {
       display: "all",
-      text: 'Oliver\'s React Markdown Previewer\n' +
+      text: '# A ReactJS Markdown Previewer by Oliver!\n' +
             '=======\n\n' +
             'Sub-heading\n' +
             '-----------\n\n' +
