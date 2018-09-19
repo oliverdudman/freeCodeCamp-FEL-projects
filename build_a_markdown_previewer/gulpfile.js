@@ -69,7 +69,7 @@ gulp.task("build_html", function() {
     "js": "js/main.min.js"
   }))
   .pipe(htmlmin({collapseWhitespace: true}))
-  .pipe(gulp.dest("dist"));
+  .pipe(gulp.dest("../docs/markdown_previewer"));
 });
 
 gulp.task("build_sass", function() {
@@ -78,7 +78,7 @@ gulp.task("build_sass", function() {
   .pipe(sourcemaps.init())
   .pipe(sass({outputStyle: "compressed"}))
   .pipe(sourcemaps.write("./"))
-  .pipe(gulp.dest("dist/css"));
+  .pipe(gulp.dest("../docs/markdown_previewer/css"));
 });
 
 gulp.task("build_js", function() {
@@ -87,13 +87,13 @@ gulp.task("build_js", function() {
   .transform({global: true}, envify({NODE_ENV: "production"}))
   .transform("uglifyify", {global: true})
   .bundle()
-  .pipe(exorcist("dist/js/main.min.map.js"))
+  .pipe(exorcist("../docs/markdown_previewer/js/main.min.map.js"))
   .pipe(source("main.min.js"))
-  .pipe(gulp.dest("dist/js"));
+  .pipe(gulp.dest("../docs/markdown_previewer/js"));
 });
 
 gulp.task("clean", function() {
-  return gulp.src("dist",{allowEmpty: true})
+  return gulp.src("../docs/markdown_previewer",{allowEmpty: true})
   .pipe(clean());
 });
 
