@@ -67,7 +67,7 @@ gulp.task("clean", function() {
   gulp.src("../docs/index.html", {allowEmpty: true})
   .pipe(clean());
   return gulp.src("../docs/css", {allowEmpty: true})
-  .pipe(clean());
+  .pipe(clean({force: true}));
 });
 
 gulp.task("build", gulp.series("clean",

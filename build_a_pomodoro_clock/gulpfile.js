@@ -101,7 +101,7 @@ gulp.task("build_js", function() {
 
 gulp.task("clean", function() {
   return gulp.src("../docs/pomodoro_clock", {allowEmpty: true})
-  .pipe(clean());
+  .pipe(clean({force: true}));
 });
 
 gulp.task("build", gulp.series("clean",

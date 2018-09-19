@@ -94,7 +94,7 @@ gulp.task("build_js", function() {
 
 gulp.task("clean", function() {
   return gulp.src("../docs/random_quote_machine", {allowEmpty: true})
-  .pipe(clean());
+  .pipe(clean({force: true}));
 });
 
 gulp.task("build", gulp.series("clean",
