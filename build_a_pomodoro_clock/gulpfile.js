@@ -99,10 +99,15 @@ gulp.task("build_js", function() {
   .pipe(gulp.dest("../docs/pomodoro_clock/js"));
 });
 
+gulp.task("build_favicon", function() {
+  return gulp.src("src/favicon.png")
+  .pipe(gulp.dest("../docs/pomodoro_clock"));
+});
+
 gulp.task("clean", function() {
   return gulp.src("../docs/pomodoro_clock", {allowEmpty: true})
   .pipe(clean({force: true}));
 });
 
 gulp.task("build", gulp.series("clean",
-gulp.parallel("build_html", "build_sass", "build_js", "build_audio")));
+gulp.parallel("build_html", "build_sass", "build_js", "build_audio", "build_favicon")));

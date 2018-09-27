@@ -63,13 +63,19 @@ gulp.task("build_sass", function() {
   .pipe(gulp.dest("../docs/css"));
 });
 
+gulp.task("build_favicon", function() {
+  return gulp.src("favicon.png")
+  .pipe(gulp.dest("../docs"));
+});
+
+
 gulp.task("clean", function() {
   gulp.src("../docs/index.html", {allowEmpty: true})
-  .pipe(clean());
+  .pipe(clean({force: true}));
   return gulp.src("../docs/css", {allowEmpty: true})
   .pipe(clean({force: true}));
 });
 
 gulp.task("build", gulp.series("clean",
-  gulp.parallel("build_html", "build_sass")
+  gulp.parallel("build_html", "build_sass", "build_favicon")
 ));

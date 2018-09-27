@@ -92,11 +92,16 @@ gulp.task("build_js", function() {
   .pipe(gulp.dest("../docs/random_quote_machine/js"));
 });
 
+gulp.task("build_favicon", function() {
+  return gulp.src("favicon.png")
+  .pipe(gulp.dest("../docs/random_quote_machine"));
+});
+
 gulp.task("clean", function() {
   return gulp.src("../docs/random_quote_machine", {allowEmpty: true})
   .pipe(clean({force: true}));
 });
 
 gulp.task("build", gulp.series("clean",
-  gulp.parallel("build_html", "build_sass", "build_js")
+  gulp.parallel("build_html", "build_sass", "build_js", "build_favicon")
 ));
